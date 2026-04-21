@@ -1,0 +1,12 @@
+D:\文档\My Games\Terraria\tModLoader\ModSources\YINGYANG\bin\Debug\net8.0\YINGYANG.deps.json
+D:\文档\My Games\Terraria\tModLoader\ModSources\YINGYANG\bin\Debug\net8.0\YINGYANG.dll
+D:\文档\My Games\Terraria\tModLoader\ModSources\YINGYANG\bin\Debug\net8.0\YINGYANG.pdb
+D:\文档\My Games\Terraria\tModLoader\ModSources\YINGYANG\obj\Debug\net8.0\YINGYANG.csproj.AssemblyReference.cache
+D:\文档\My Games\Terraria\tModLoader\ModSources\YINGYANG\obj\Debug\net8.0\YINGYANG.GeneratedMSBuildEditorConfig.editorconfig
+D:\文档\My Games\Terraria\tModLoader\ModSources\YINGYANG\obj\Debug\net8.0\YINGYANG.AssemblyInfoInputs.cache
+D:\文档\My Games\Terraria\tModLoader\ModSources\YINGYANG\obj\Debug\net8.0\YINGYANG.AssemblyInfo.cs
+D:\文档\My Games\Terraria\tModLoader\ModSources\YINGYANG\obj\Debug\net8.0\YINGYANG.csproj.CoreCompileInputs.cache
+D:\文档\My Games\Terraria\tModLoader\ModSources\YINGYANG\obj\Debug\net8.0\YINGYANG.dll
+D:\文档\My Games\Terraria\tModLoader\ModSources\YINGYANG\obj\Debug\net8.0\refint\YINGYANG.dll
+D:\文档\My Games\Terraria\tModLoader\ModSources\YINGYANG\obj\Debug\net8.0\YINGYANG.pdb
+D:\文档\My Games\Terraria\tModLoader\ModSources\YINGYANG\obj\Debug\net8.0\ref\YINGYANG.dll

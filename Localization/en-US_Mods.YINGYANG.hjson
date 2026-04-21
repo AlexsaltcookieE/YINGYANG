@@ -1,0 +1,45 @@
+# This file will automatically update with entries for new content after a build and reload.
+#加注释
+
+Items: {
+	RoughPeachWoodSword: {
+		DisplayName: 初始桃木剑
+		Tooltip: 上面贴着玩具店标识的价格
+	}
+
+	MysteryBag: {
+		DisplayName: 锦囊
+		Tooltip:
+			'''
+			不管是里面和外面都是了灰尘
+			它好像一开始就在这了
+			鼠标右键打开
+			'''
+	}
+
+	FreezeIronSword: {
+		DisplayName: 玄铁剑
+		Tooltip:
+			'''
+			用地狱技术将冰熔炼进玄铁中
+			铁锈令这把剑在暴击时令敌人中毒
+			木和铁
+			'''
+	}
+
+	XIAOYAO: {
+		DisplayName: 李逍遥之剑
+		Tooltip: 侠客之剑
+	}
+}
+
+NPCs: {
+	Rod.DisplayName: Rod
+	DARK_EYES.DisplayName: D A R K_ E Y E S
+}
+
+Projectiles: {
+	LXYIron.DisplayName: L X Y Iron
+	LXYPeachWood.DisplayName: L X Y Peach Wood
+	Dead_ray.DisplayName: Dead_ray
+}
