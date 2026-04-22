@@ -31,11 +31,21 @@ Items: {
 		DisplayName: 李逍遥之剑
 		Tooltip: 侠客之剑
 	}
+
+	SummonDark_eye: {
+		DisplayName: 充满威压的竹制卷轴
+		Tooltip:
+			'''
+			-召唤魔尊的眼线-
+			白天召唤可能会被仙族盯上,魔尊会速战速决
+			建议备好冲刺，飞行，速度饰品
+			'''
+	}
 }
 
 NPCs: {
-	Rod.DisplayName: Rod
-	DARK_EYES.DisplayName: D A R K_ E Y E S
+	Rod.DisplayName: 阴间屏障
+	DARK_EYES.DisplayName: 魔尊之眼
 }
 
 Projectiles: {

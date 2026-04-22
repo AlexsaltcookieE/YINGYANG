@@ -54,7 +54,31 @@ namespace YINGYANG.Content.Projectiles
                 NPC owner = Main.npc[npcIndex];
                 Projectile.Center = owner.Center;
                 Projectile.velocity = owner.rotation.ToRotationVector2();
+            }
+            if (Projectile.ai[1] == 2f)//laserWall upward
+            {
+                int npcIndex = (int)Projectile.ai[0];
+                if (npcIndex < 0 || npcIndex >= Main.maxNPCs || !Main.npc[npcIndex].active)
+                {
+                    Projectile.Kill();
+                    return;
+                }
 
+                NPC owner = Main.npc[npcIndex];
+                Projectile.Center = owner.Center;
+                Projectile.velocity = -Vector2.UnitY;
+            }
+            if (Projectile.ai[1] == 3f)//laserWall downward
+            {
+                int npcIndex = (int)Projectile.ai[0];
+                if (npcIndex < 0 || npcIndex >= Main.maxNPCs || !Main.npc[npcIndex].active)
+                {
+                    Projectile.Kill();
+                    return;
+                }
+                NPC owner = Main.npc[npcIndex];
+                Projectile.Center = owner.Center;
+                Projectile.velocity = Vector2.UnitY;
             }
             if(Projectile.velocity == Vector2.Zero)
             {

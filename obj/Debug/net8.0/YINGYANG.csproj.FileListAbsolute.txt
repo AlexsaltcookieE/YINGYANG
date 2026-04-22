@@ -10,3 +10,4 @@ D:\文档\My Games\Terraria\tModLoader\ModSources\YINGYANG\obj\Debug\net8.0\YING
 D:\文档\My Games\Terraria\tModLoader\ModSources\YINGYANG\obj\Debug\net8.0\refint\YINGYANG.dll
 D:\文档\My Games\Terraria\tModLoader\ModSources\YINGYANG\obj\Debug\net8.0\YINGYANG.pdb
 D:\文档\My Games\Terraria\tModLoader\ModSources\YINGYANG\obj\Debug\net8.0\ref\YINGYANG.dll
+D:\文档\My Games\Terraria\tModLoader\ModSources\YINGYANG\obj\Debug\net8.0\YINGYANG.sourcelink.json

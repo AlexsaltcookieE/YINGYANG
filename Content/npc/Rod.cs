@@ -46,11 +46,11 @@ namespace YINGYANG.Content.npc //NPC
                     _friendly = true;
                 }
             }
-            if (_friendly = false)
+            if (_friendly == false)
             {
                 NPC.velocity.Y = 0.2f;
             }
-            else if (_friendly = true)
+            else if (_friendly == true)
             {
                 Player player = Main.player[NPC.target];
                 Vector2 vector = player.Center - NPC.Center;
