@@ -41,15 +41,38 @@ Items: {
 			建议备好冲刺，飞行，速度饰品
 			'''
 	}
+
+	Dark_magic_Jewellery: {
+		DisplayName: 魔光宝珠
+		Tooltip: 专家
+	}
+
+	Cyan_Fe_Item: {
+		DisplayName: 青铁矿
+		Tooltip:
+			'''
+			一种以韧性和柔软著称的金属矿石
+			上面有轻微灵气的迹象
+			'''
+	}
 }
 
 NPCs: {
 	Rod.DisplayName: 阴间屏障
 	DARK_EYES.DisplayName: 魔尊之眼
+	Shadow_hand.DisplayName: 贴了符咒的暗影爪
 }
 
 Projectiles: {
-	LXYIron.DisplayName: L X Y Iron
-	LXYPeachWood.DisplayName: L X Y Peach Wood
-	Dead_ray.DisplayName: Dead_ray
+	LXYIron.DisplayName: 李逍遥的铁剑
+	LXYPeachWood.DisplayName: 李逍遥的木剑
+	Dead_ray.DisplayName: 死亡光波
+	Shadow_hand_EXPOSE.DisplayName: 暗影爪自爆
+}
+
+Buffs: {
+	Evil_aura: {
+		DisplayName: 煞气中伤
+		Description: 你使用的生命药水无法恢复生命!
+	}
 }

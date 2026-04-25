@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "d:\\文档\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\YINGYANG.csproj": {}
+    "D:\\文档\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\YINGYANG.csproj": {}
   },
   "projects": {
-    "d:\\文档\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\YINGYANG.csproj": {
+    "D:\\文档\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\YINGYANG.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\文档\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\YINGYANG.csproj",
+        "projectUniqueName": "D:\\文档\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\YINGYANG.csproj",
         "projectName": "YINGYANG",
-        "projectPath": "d:\\文档\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\YINGYANG.csproj",
+        "projectPath": "D:\\文档\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\YINGYANG.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "d:\\文档\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\obj\\",
+        "outputPath": "D:\\文档\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "E:\\CODING\\HOSTORSDK\\NuGetPackages",
@@ -31,6 +31,7 @@
         },
         "frameworks": {
           "net8.0": {
+            "framework": "net8.0",
             "targetAlias": "net8.0",
             "projectReferences": {}
           }
@@ -49,6 +50,7 @@
       },
       "frameworks": {
         "net8.0": {
+          "framework": "net8.0",
           "targetAlias": "net8.0",
           "dependencies": {
             "System.Runtime": {
@@ -86,7 +88,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

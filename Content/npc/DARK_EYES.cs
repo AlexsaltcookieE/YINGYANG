@@ -13,8 +13,10 @@ namespace YINGYANG.Content.npc
     [AutoloadBossHead]
     public class DARK_EYES : ModNPC
     {
-        private int LaserDamage = 80;
-        private int NPCdamage = 50;
+        private bool BossSecondPhase = false;
+        // Tuned for mech-boss progression: dangerous but not post-Plantera level.
+        private int LaserDamage = 66;
+        private int NPCdamage = 46;
         private int RandomProjDir = 0;
         private int LaserWallCooldown = 0;
         private int ProjectileCooldown = 0;
@@ -36,6 +38,8 @@ namespace YINGYANG.Content.npc
         private Vector2 SpawnPos1;
         private Vector2 SpawnPos2;
         private Vector2 SpawnPos3;
+        private Vector2 SpawnPos4;
+        private Vector2 SpawnPos5;
         private Vector2 ScreenProjectVelocity1 = new Vector2(12f, 0f);
         private Vector2 ScreenProjectVelocity2 = new Vector2(12f, -6f);
         private Vector2 ScreenProjectVelocity3 = new Vector2(12f, 6f);
@@ -50,7 +54,7 @@ namespace YINGYANG.Content.npc
         public override void SetDefaults()//预设值
         {
             NPC.boss = true;
-            NPC.lifeMax = 30000;//经典模式
+            NPC.lifeMax = 27000;//经典模式（三王末期偏难）
             NPC.damage = NPCdamage;//伤害
             NPC.aiStyle = -1;//不使用AI
             NPC.noGravity = true;
@@ -58,6 +62,9 @@ namespace YINGYANG.Content.npc
             NPC.knockBackResist = 0f;
             NPC.width = 100;
             NPC.height = 200;
+
+            // Boss 战音乐（兼容不支持 override Music 的 tML 版本）
+            Music = MusicLoader.GetMusicSlot(Mod, "Content/Music/Boss_fight/DarkEyes");
 
         }
         private enum BossState
@@ -67,11 +74,17 @@ namespace YINGYANG.Content.npc
             ShootLaser = 2,
             Pakour = 3
         }
+
         private BossState CurrentBossState = BossState.Chase;
         private int BossStateTimer = 0;
         private int BossCoolDown = 0;
+
         public override void AI()
         {
+            if(NPC.life < NPC.lifeMax * 0.5 && !BossSecondPhase)
+            {
+                BossSecondPhase = true;
+            }
             if (Main.dayTime)
             {
                 Main.NewText("你要被仙帝盯上了");
@@ -166,6 +179,24 @@ namespace YINGYANG.Content.npc
                 }
             }
         }
+
+        private void SpawnSideWarningLine(float xWorld)
+        {
+            if (Main.dedServ)
+            {
+                return;
+            }
+
+            float top = Main.screenPosition.Y + 20f;
+            float bottom = Main.screenPosition.Y + Main.screenHeight - 20f;
+            for (float y = top; y <= bottom; y += 28f)
+            {
+                Dust dust = Dust.NewDustPerfect(new Vector2(xWorld, y), DustID.GemRuby, Vector2.Zero);
+                dust.noGravity = true;
+                dust.velocity = Vector2.Zero;
+                dust.scale = 1.1f;
+            }
+        }
         //--------------------------------------状态0--------------------------------------
         private void DoChase(Player target)
         {
@@ -178,10 +209,22 @@ namespace YINGYANG.Content.npc
             }
             Microsoft.Xna.Framework.Vector2 ChaseVelocity = toTarget * chaseSpeed;//向量
             NPC.velocity = Microsoft.Xna.Framework.Vector2.Lerp(NPC.velocity, ChaseVelocity, SpeedUP);//NPC的速度
-            if(ProjectileCooldown > 30)
+            if (ProjectileCooldown > 30 && !BossSecondPhase)
             {
                 ProjectileCooldown = 0;
-                Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, toTarget * 8f, ProjectileID.EyeBeam,NPCdamage, 2f);
+                Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, toTarget * 8f, ProjectileID.EyeBeam, NPCdamage, 2f);
+            }
+            else if (ProjectileCooldown > 40 && BossSecondPhase)
+            {
+                ProjectileCooldown = 0;
+                float splitAngle = MathHelper.ToRadians(12f);
+                Vector2 centerShot = toTarget * 10f;
+                Vector2 leftShot = centerShot.RotatedBy(-splitAngle);
+                Vector2 rightShot = centerShot.RotatedBy(splitAngle);
+
+                Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, centerShot, ProjectileID.EyeBeam, NPCdamage, 2f);
+                Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, leftShot, ProjectileID.EyeBeam, NPCdamage, 2f);
+                Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, rightShot, ProjectileID.EyeBeam, NPCdamage, 2f);
             }
             // Keep spinning during chase.
             NPC.rotation += 0.4f;
@@ -205,6 +248,19 @@ namespace YINGYANG.Content.npc
                 {
                     Microsoft.Xna.Framework.Vector2 LasserDir = NPC.rotation.ToRotationVector2();
                     LaserProjectileIndex = Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, LasserDir, ModContent.ProjectileType<Dead_ray>(), LaserDamage, 2f, Main.myPlayer, NPC.whoAmI, 1f);
+                }
+                if(BossSecondPhase)
+                {
+                    const int Maxhands = 2;
+                    if(CountHand() < Maxhands)
+                    {
+                        Vector2 SpawnPos = NPC.Center;
+                        int idx = NPC.NewNPC(NPC.GetSource_FromAI(),(int)SpawnPos.X,(int)SpawnPos.Y,ModContent.NPCType<Shadow_hand>());
+                        if (idx >= 0 && idx < Main.maxNPCs)
+                        {
+                            Main.npc[idx].netUpdate = true;
+                        }
+                    } 
                 }
             }
             NPC.velocity *= 0;
@@ -271,11 +327,20 @@ namespace YINGYANG.Content.npc
                     Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Wall, ModContent.ProjectileType<Dead_ray>(), LaserDamage, 2f, Main.myPlayer, NPC.whoAmI, 2f);
                     Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Wall, ModContent.ProjectileType<Dead_ray>(), LaserDamage, 2f, Main.myPlayer, NPC.whoAmI, 3f);
                 }
-                // 屏幕左边界发射分岔弹幕
-                float LeftX = Main.screenPosition.X;
-                SpawnPos1 = new Vector2(LeftX - 60f, target.Center.Y + target.velocity.Y);
+                // 根据玩家相对BOSS位置，动态决定从左侧或右侧发射
+                bool playerOnRight = target.Center.X > NPC.Center.X;
+                float spawnX = playerOnRight ? Main.screenPosition.X + Main.screenWidth + 60f : Main.screenPosition.X - 60f;
+                float horizontalSpeed = playerOnRight ? -12f : 12f;
+                SpawnPos1 = new Vector2(spawnX, target.Center.Y + target.velocity.Y);
+                int sideWaveCooldown = BossSecondPhase ? 105 : 90;
+                const int warningLeadTime = 30;
+                if (ProjectileCooldown >= sideWaveCooldown - warningLeadTime && ProjectileCooldown % 4 == 0)
+                {
+                    float warningX = playerOnRight ? Main.screenPosition.X + Main.screenWidth - 24f : Main.screenPosition.X + 24f;
+                    SpawnSideWarningLine(warningX);
+                }
 
-                if (ProjectileCooldown > 90)
+                if (ProjectileCooldown > sideWaveCooldown)
                 {
                     ProjectileCooldown = 0;
                     RandomProjDir = Main.rand.Next(0, 3);
@@ -283,32 +348,45 @@ namespace YINGYANG.Content.npc
                     if (RandomProjDir == 0)
                     {
                         // 同点分岔：中、上、下
-                        Projectile.NewProjectile(NPC.GetSource_FromThis(), SpawnPos1, new Vector2(12f, 0f), ProjectileID.DemonSickle, NPCdamage, 2f, Main.myPlayer);
-                        Projectile.NewProjectile(NPC.GetSource_FromThis(), SpawnPos1, new Vector2(12f, -4f), ProjectileID.DemonSickle, NPCdamage, 2f, Main.myPlayer);
-                        Projectile.NewProjectile(NPC.GetSource_FromThis(), SpawnPos1, new Vector2(12f, 4f), ProjectileID.DemonSickle, NPCdamage, 2f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), SpawnPos1, new Vector2(horizontalSpeed, 0f), ProjectileID.DemonSickle, NPCdamage, 2f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), SpawnPos1, new Vector2(horizontalSpeed, -4f), ProjectileID.DemonSickle, NPCdamage, 2f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), SpawnPos1, new Vector2(horizontalSpeed, 4f), ProjectileID.DemonSickle, NPCdamage, 2f, Main.myPlayer);
+                        if(BossSecondPhase)
+                        {
+                            Projectile.NewProjectile(NPC.GetSource_FromThis(), SpawnPos1, new Vector2(horizontalSpeed, 8f), ProjectileID.DemonSickle, NPCdamage, 2f, Main.myPlayer);
+                            Projectile.NewProjectile(NPC.GetSource_FromThis(), SpawnPos1, new Vector2(horizontalSpeed, -8f), ProjectileID.DemonSickle, NPCdamage, 2f, Main.myPlayer);
+                        }
                     }
                     else if (RandomProjDir == 1)
                     {
                         // 三线平推（大间距）
-                        SpawnPos1 = new Vector2(LeftX - 60f, target.Center.Y + target.velocity.Y * 30f + 120f);
-                        SpawnPos2 = new Vector2(LeftX - 60f, target.Center.Y + target.velocity.Y * 30f);
-                        SpawnPos3 = new Vector2(LeftX - 60f, target.Center.Y + target.velocity.Y * 30f - 120f);
-                        Projectile.NewProjectile(NPC.GetSource_FromThis(), SpawnPos1, new Vector2(12f, 0f), ProjectileID.DemonSickle, NPCdamage, 2f, Main.myPlayer);
-                        Projectile.NewProjectile(NPC.GetSource_FromThis(), SpawnPos2, new Vector2(12f, 0f), ProjectileID.DemonSickle, NPCdamage, 2f, Main.myPlayer);
-                        Projectile.NewProjectile(NPC.GetSource_FromThis(), SpawnPos3, new Vector2(12f, 0f), ProjectileID.DemonSickle, NPCdamage, 2f, Main.myPlayer);
+                        SpawnPos1 = new Vector2(spawnX, target.Center.Y + target.velocity.Y * 30f + 150f);
+                        SpawnPos2 = new Vector2(spawnX, target.Center.Y + target.velocity.Y * 30f);
+                        SpawnPos3 = new Vector2(spawnX, target.Center.Y + target.velocity.Y * 30f - 150f);
+                        SpawnPos4 = new Vector2(spawnX, target.Center.Y + target.velocity.Y * 30f + 300f);
+                        SpawnPos5 = new Vector2(spawnX, target.Center.Y + target.velocity.Y * 30f - 300f);
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), SpawnPos1, new Vector2(horizontalSpeed, 0f), ProjectileID.DemonSickle, NPCdamage, 2f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), SpawnPos2, new Vector2(horizontalSpeed, 0f), ProjectileID.DemonSickle, NPCdamage, 2f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), SpawnPos3, new Vector2(horizontalSpeed, 0f), ProjectileID.DemonSickle, NPCdamage, 2f, Main.myPlayer);
+                        if(BossSecondPhase)
+                        {
+                            Projectile.NewProjectile(NPC.GetSource_FromThis(), SpawnPos4, new Vector2(horizontalSpeed, 0f), ProjectileID.DemonSickle, NPCdamage, 2f, Main.myPlayer);
+                            Projectile.NewProjectile(NPC.GetSource_FromThis(), SpawnPos5, new Vector2(horizontalSpeed, 0f), ProjectileID.DemonSickle, NPCdamage, 2f, Main.myPlayer);
+                        }
+
                     }
                     else
                     {
                         // 三线平推（小间距）
-                        SpawnPos1 = new Vector2(LeftX - 60f, target.Center.Y + target.velocity.Y * 30f + 60f);
-                        SpawnPos2 = new Vector2(LeftX - 60f, target.Center.Y + target.velocity.Y * 30f);
-                        SpawnPos3 = new Vector2(LeftX - 60f, target.Center.Y + target.velocity.Y * 30f - 60f);
-                        Projectile.NewProjectile(NPC.GetSource_FromThis(), SpawnPos1, new Vector2(12f, 0f), ProjectileID.DemonSickle, NPCdamage, 2f, Main.myPlayer);
-                        Projectile.NewProjectile(NPC.GetSource_FromThis(), SpawnPos2, new Vector2(12f, 0f), ProjectileID.DemonSickle, NPCdamage, 2f, Main.myPlayer);
-                        Projectile.NewProjectile(NPC.GetSource_FromThis(), SpawnPos3, new Vector2(12f, 0f), ProjectileID.DemonSickle, NPCdamage, 2f, Main.myPlayer);
+                        SpawnPos1 = new Vector2(spawnX, target.Center.Y + target.velocity.Y * 30f + 60f);
+                        SpawnPos2 = new Vector2(spawnX, target.Center.Y + target.velocity.Y * 30f);
+                        SpawnPos3 = new Vector2(spawnX, target.Center.Y + target.velocity.Y * 30f - 60f);
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), SpawnPos1, new Vector2(horizontalSpeed, 0f), ProjectileID.DemonSickle, NPCdamage, 2f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), SpawnPos2, new Vector2(horizontalSpeed, 0f), ProjectileID.DemonSickle, NPCdamage, 2f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), SpawnPos3, new Vector2(horizontalSpeed, 0f), ProjectileID.DemonSickle, NPCdamage, 2f, Main.myPlayer);
                     }
                 }
-                if(ProjectileCooldown1 > 80)
+                if(ProjectileCooldown1 > 105)
                 {
                     int LEFTRIGHT;
                     ProjectileCooldown1 = 0;
@@ -320,9 +398,9 @@ namespace YINGYANG.Content.npc
                     {
                          LEFTRIGHT = 1;
                     }
-                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(-12f * LEFTRIGHT, -4f), ProjectileID.DemonSickle, NPCdamage, 2f, Main.myPlayer);
+                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(-12f * LEFTRIGHT, -6f), ProjectileID.DemonSickle, NPCdamage, 2f, Main.myPlayer);
                     Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(-12f * LEFTRIGHT, 0f), ProjectileID.DemonSickle, NPCdamage, 2f, Main.myPlayer);
-                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(-12f * LEFTRIGHT, 4f), ProjectileID.DemonSickle, NPCdamage, 2f, Main.myPlayer);
+                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(-12f * LEFTRIGHT, 6f), ProjectileID.DemonSickle, NPCdamage, 2f, Main.myPlayer);
                 }
             }
             else
@@ -331,7 +409,20 @@ namespace YINGYANG.Content.npc
                 RandomBossState(BossState.Pakour);
             }
         }
-
+        public static int CountHand()
+        {
+            int type = ModContent.NPCType<Shadow_hand>();
+            int count = 0;
+            for (int i = 0; i < Main.maxNPCs; i++)
+            {
+                NPC n = Main.npc[i];
+                if(n.active && n.type == type)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
         public void Despawn()
         {
             NPC.velocity.Y = -10f;
@@ -345,17 +436,18 @@ namespace YINGYANG.Content.npc
         {
             if (Main.expertMode)//专家模式
             {
-                NPC.lifeMax = 42000;
-                NPC.damage = 57;
-                LaserDamage = 90;
+                NPC.lifeMax = 37000;
+                NPCdamage = 56;
+                NPC.damage = NPCdamage;
+                LaserDamage = 82;
             }
             if (Main.masterMode)//大师模式
             {
-                NPC.lifeMax = 54000;
-                NPC.damage = 64;
-                LaserDamage = 100;
+                NPC.lifeMax = 46000;
+                NPCdamage = 64;
+                NPC.damage = NPCdamage;
+                LaserDamage = 96;
             }
-
         }
     }
 }

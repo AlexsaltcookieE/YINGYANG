@@ -7,27 +7,16 @@
       "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:content\\npc\\dark_eyes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\content\\projectiles\\dead_ray.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:content\\projectiles\\dead_ray.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\content\\npc\\rod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:content\\npc\\rod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\content\\items\\placeables\\ores\\cyan_fe_item.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:content\\items\\placeables\\ores\\cyan_fe_item.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\localization\\en-us_mods.yingyang.hjson||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:localization\\en-us_mods.yingyang.hjson||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|E:\\mystream\\STEAM\\steamapps\\common\\tModLoader\\tMLMod.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\content\\items\\bosssummonitem\\summondark_eye.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:content\\items\\bosssummonitem\\summondark_eye.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\content\\items\\mysterybag.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:content\\items\\mysterybag.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\content\\worldgenarate\\yinyangworldgenaratesystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:content\\worldgenarate\\yinyangworldgenaratesystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -47,7 +36,7 @@
               "RelativeDocumentMoniker": "Content\\npc\\DARK_EYES.cs",
               "ToolTip": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\npc\\DARK_EYES.cs",
               "RelativeToolTip": "Content\\npc\\DARK_EYES.cs",
-              "ViewState": "AgIAAJAAAAAAAAAAAAAQwKQAAAAgAAAAAAAAAA==",
+              "ViewState": "AgIAADcAAAAAAAAAAAAIwAIBAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-16T06:45:41.939Z",
               "IsPinned": true,
@@ -56,73 +45,41 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Dead_ray.cs",
-              "DocumentMoniker": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Projectiles\\Dead_ray.cs",
-              "RelativeDocumentMoniker": "Content\\Projectiles\\Dead_ray.cs",
-              "ToolTip": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Projectiles\\Dead_ray.cs",
-              "RelativeToolTip": "Content\\Projectiles\\Dead_ray.cs",
-              "ViewState": "AgIAACsAAAAAAAAAAAAUwAUAAAASAAAAAAAAAA==",
+              "Title": "Cyan_Fe_Item.cs",
+              "DocumentMoniker": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Items\\Placeables\\Ores\\Cyan_Fe_Item.cs",
+              "RelativeDocumentMoniker": "Content\\Items\\Placeables\\Ores\\Cyan_Fe_Item.cs",
+              "ToolTip": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Items\\Placeables\\Ores\\Cyan_Fe_Item.cs",
+              "RelativeToolTip": "Content\\Items\\Placeables\\Ores\\Cyan_Fe_Item.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-20T11:24:19.865Z",
+              "WhenOpened": "2026-04-25T07:08:05.912Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "en-US_Mods.YINGYANG.hjson",
               "DocumentMoniker": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Localization\\en-US_Mods.YINGYANG.hjson",
               "RelativeDocumentMoniker": "Localization\\en-US_Mods.YINGYANG.hjson",
               "ToolTip": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Localization\\en-US_Mods.YINGYANG.hjson",
               "RelativeToolTip": "Localization\\en-US_Mods.YINGYANG.hjson",
-              "ViewState": "AgIAAAwAAAAAAAAAAADwvykAAAAGAAAAAAAAAA==",
+              "ViewState": "AgIAABsAAAAAAAAAAADwv0UAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2026-04-21T13:13:00.324Z"
+              "WhenOpened": "2026-04-25T07:02:12.258Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "MysteryBag.cs",
-              "DocumentMoniker": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Items\\MysteryBag.cs",
-              "RelativeDocumentMoniker": "Content\\Items\\MysteryBag.cs",
-              "ToolTip": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Items\\MysteryBag.cs",
-              "RelativeToolTip": "Content\\Items\\MysteryBag.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "YINYANGWorldGenarateSystem.cs",
+              "DocumentMoniker": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\WorldGenarate\\YINYANGWorldGenarateSystem.cs",
+              "RelativeDocumentMoniker": "Content\\WorldGenarate\\YINYANGWorldGenarateSystem.cs",
+              "ToolTip": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\WorldGenarate\\YINYANGWorldGenarateSystem.cs",
+              "RelativeToolTip": "Content\\WorldGenarate\\YINYANGWorldGenarateSystem.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAMwBUAAABaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-21T11:43:10.429Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "SummonDark_eye.cs",
-              "DocumentMoniker": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Items\\BossSummonItem\\SummonDark_eye.cs",
-              "RelativeDocumentMoniker": "Content\\Items\\BossSummonItem\\SummonDark_eye.cs",
-              "ToolTip": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Items\\BossSummonItem\\SummonDark_eye.cs",
-              "RelativeToolTip": "Content\\Items\\BossSummonItem\\SummonDark_eye.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACUAAABSAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-21T10:26:41.589Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "tMLMod.targets",
-              "DocumentMoniker": "E:\\mystream\\STEAM\\steamapps\\common\\tModLoader\\tMLMod.targets",
-              "ToolTip": "E:\\mystream\\STEAM\\steamapps\\common\\tModLoader\\tMLMod.targets",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADoAAAACAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
-              "WhenOpened": "2026-04-20T07:42:48.498Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Rod.cs",
-              "DocumentMoniker": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\npc\\Rod.cs",
-              "RelativeDocumentMoniker": "Content\\npc\\Rod.cs",
-              "ToolTip": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\npc\\Rod.cs",
-              "RelativeToolTip": "Content\\npc\\Rod.cs",
-              "ViewState": "AgIAACoAAAAAAAAAAAAIwDAAAAAcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-16T03:40:45.04Z"
+              "WhenOpened": "2026-04-25T05:56:20.874Z",
+              "EditorCaption": ""
             }
           ]
         }
