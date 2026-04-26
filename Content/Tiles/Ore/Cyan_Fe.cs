@@ -20,7 +20,7 @@ namespace YINGYANG.Content.Tiles.Ore
             Main.tileShine2[Type] = true;         // 发亮效果（可选）
             Main.tileShine[Type] = 900;           // 闪烁频率（可选）
             // 地图显示
-            AddMapEntry(new Color(60, 220, 220));
+            AddMapEntry(new Color(60, 220, 220),CreateMapEntryName());
             // 挖掘相关
             DustType = DustID.BlueMoss; // 没有专用尘埃就先用现成的
             HitSound = SoundID.Tink;

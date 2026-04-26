@@ -3,16 +3,36 @@
   "WorkspaceRootPath": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\content\\npc\\dark_eyes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:content\\npc\\dark_eyes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\content\\tiles\\bloody_chest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:content\\tiles\\bloody_chest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\content\\items\\placeables\\ores\\cyan_fe_item.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:content\\items\\placeables\\ores\\cyan_fe_item.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\content\\items\\placeables\\craftstations\\alchemyfurnaceitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:content\\items\\placeables\\craftstations\\alchemyfurnaceitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\content\\items\\placeables\\ingots\\cyan_fe_ingot_item.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:content\\items\\placeables\\ingots\\cyan_fe_ingot_item.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\content\\tiles\\craftstation\\alchemyfurnance.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:content\\tiles\\craftstation\\alchemyfurnance.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\localization\\en-us_mods.yingyang.hjson||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:localization\\en-us_mods.yingyang.hjson||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\content\\npc\\dark_eyes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:content\\npc\\dark_eyes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\content\\tiles\\ore\\cyan_fe.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:content\\tiles\\ore\\cyan_fe.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\content\\items\\placeables\\ores\\cyan_fe_item.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:content\\items\\placeables\\ores\\cyan_fe_item.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\content\\worldgenarate\\yinyangworldgenaratesystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -26,17 +46,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
               "Title": "DARK_EYES.cs",
               "DocumentMoniker": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\npc\\DARK_EYES.cs",
               "RelativeDocumentMoniker": "Content\\npc\\DARK_EYES.cs",
               "ToolTip": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\npc\\DARK_EYES.cs",
               "RelativeToolTip": "Content\\npc\\DARK_EYES.cs",
-              "ViewState": "AgIAADcAAAAAAAAAAAAIwAIBAAAZAAAAAAAAAA==",
+              "ViewState": "AgIAAIQBAAAAAAAAAAAowAIBAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-16T06:45:41.939Z",
               "IsPinned": true,
@@ -44,7 +64,71 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Bloody_Chest.cs",
+              "DocumentMoniker": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Tiles\\Bloody_Chest.cs",
+              "RelativeDocumentMoniker": "Content\\Tiles\\Bloody_Chest.cs",
+              "ToolTip": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Tiles\\Bloody_Chest.cs",
+              "RelativeToolTip": "Content\\Tiles\\Bloody_Chest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-26T14:24:28.852Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Cyan_Fe_Ingot_item.cs",
+              "DocumentMoniker": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Items\\Placeables\\ingots\\Cyan_Fe_Ingot_item.cs",
+              "RelativeDocumentMoniker": "Content\\Items\\Placeables\\ingots\\Cyan_Fe_Ingot_item.cs",
+              "ToolTip": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Items\\Placeables\\ingots\\Cyan_Fe_Ingot_item.cs",
+              "RelativeToolTip": "Content\\Items\\Placeables\\ingots\\Cyan_Fe_Ingot_item.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAADwvxoAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-26T11:21:10.312Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "AlchemyFurnaceItem.cs",
+              "DocumentMoniker": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Items\\Placeables\\CraftStations\\AlchemyFurnaceItem.cs",
+              "RelativeDocumentMoniker": "Content\\Items\\Placeables\\CraftStations\\AlchemyFurnaceItem.cs",
+              "ToolTip": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Items\\Placeables\\CraftStations\\AlchemyFurnaceItem.cs",
+              "RelativeToolTip": "Content\\Items\\Placeables\\CraftStations\\AlchemyFurnaceItem.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-26T08:31:29.69Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AlchemyFurnance.cs",
+              "DocumentMoniker": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Tiles\\CraftStation\\AlchemyFurnance.cs",
+              "RelativeDocumentMoniker": "Content\\Tiles\\CraftStation\\AlchemyFurnance.cs",
+              "ToolTip": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Tiles\\CraftStation\\AlchemyFurnance.cs",
+              "RelativeToolTip": "Content\\Tiles\\CraftStation\\AlchemyFurnance.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-26T08:28:18.249Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Cyan_Fe.cs",
+              "DocumentMoniker": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Tiles\\Ore\\Cyan_Fe.cs",
+              "RelativeDocumentMoniker": "Content\\Tiles\\Ore\\Cyan_Fe.cs",
+              "ToolTip": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Tiles\\Ore\\Cyan_Fe.cs",
+              "RelativeToolTip": "Content\\Tiles\\Ore\\Cyan_Fe.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvx8AAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-25T14:04:09.296Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "Cyan_Fe_Item.cs",
               "DocumentMoniker": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Items\\Placeables\\Ores\\Cyan_Fe_Item.cs",
               "RelativeDocumentMoniker": "Content\\Items\\Placeables\\Ores\\Cyan_Fe_Item.cs",
@@ -52,25 +136,24 @@
               "RelativeToolTip": "Content\\Items\\Placeables\\Ores\\Cyan_Fe_Item.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-25T07:08:05.912Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-25T07:08:05.912Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "en-US_Mods.YINGYANG.hjson",
               "DocumentMoniker": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Localization\\en-US_Mods.YINGYANG.hjson",
               "RelativeDocumentMoniker": "Localization\\en-US_Mods.YINGYANG.hjson",
               "ToolTip": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Localization\\en-US_Mods.YINGYANG.hjson",
               "RelativeToolTip": "Localization\\en-US_Mods.YINGYANG.hjson",
-              "ViewState": "AgIAABsAAAAAAAAAAADwv0UAAAAmAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEsAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
               "WhenOpened": "2026-04-25T07:02:12.258Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 8,
               "Title": "YINYANGWorldGenarateSystem.cs",
               "DocumentMoniker": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\WorldGenarate\\YINYANGWorldGenarateSystem.cs",
               "RelativeDocumentMoniker": "Content\\WorldGenarate\\YINYANGWorldGenarateSystem.cs",
@@ -78,8 +161,7 @@
               "RelativeToolTip": "Content\\WorldGenarate\\YINYANGWorldGenarateSystem.cs",
               "ViewState": "AgIAABMAAAAAAAAAAAAMwBUAAABaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-25T05:56:20.874Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-25T05:56:20.874Z"
             }
           ]
         }

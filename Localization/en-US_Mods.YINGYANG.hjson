@@ -55,6 +55,20 @@ Items: {
 			上面有轻微灵气的迹象
 			'''
 	}
+
+	AlchemyFurnaceItem: {
+		DisplayName: 铜制炼丹炉
+		Tooltip:
+			'''
+			最基本的炼制工作都在这完成
+			最终形态甚至可以关住齐天大圣
+			'''
+	}
+
+	Cyan_Fe_Ingot_item: {
+		DisplayName: Cyan_ Fe_ Ingot_item
+		Tooltip: ""
+	}
 }
 
 NPCs: {
@@ -75,4 +89,9 @@ Buffs: {
 		DisplayName: 煞气中伤
 		Description: 你使用的生命药水无法恢复生命!
 	}
+}
+
+Tiles: {
+	Cyan_Fe.MapEntry: 青铁矿
+	AlchemyFurnance.MapEntry: 炼丹炉
 }
