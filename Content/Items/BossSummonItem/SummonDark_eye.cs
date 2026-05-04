@@ -18,7 +18,6 @@ namespace YINGYANG.Content.Items.BossSummonItem
             Item.width = 32;
             Item.height = 32;
             Item.maxStack = 20;
-            Item.consumable = true;
             Item.useAnimation = 45;
             Item.useTime = 45;
             Item.useStyle = ItemUseStyleID.HoldUp;

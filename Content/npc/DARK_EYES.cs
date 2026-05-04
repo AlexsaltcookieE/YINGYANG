@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -7,6 +8,7 @@ using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
+using YINGYANG.Content.ModAddons;
 using YINGYANG.Content.Projectiles;
 namespace YINGYANG.Content.npc
 {
@@ -430,6 +432,11 @@ namespace YINGYANG.Content.npc
             {
                 NPC.timeLeft = 10;
             }
+        }
+
+        public override void OnKill()
+        {
+           // BossChecklistAddons.DarkEyesDowned = true;
         }
 
         public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment) //难度和玩家数量

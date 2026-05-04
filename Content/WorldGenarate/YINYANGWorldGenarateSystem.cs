@@ -7,6 +7,8 @@ using Terraria.GameContent.Generation;
 using Terraria.IO;
 using Terraria.ModLoader;
 using Terraria.WorldBuilding;
+using YINGYANG.Content.Items.BossSummonItem;
+using YINGYANG.Content.Tiles;
 using YINGYANG.Content.Tiles.Ore;
 
 namespace YINGYANG.Content.WorldGenarate
@@ -21,6 +23,11 @@ namespace YINGYANG.Content.WorldGenarate
             {
                 tasks.Insert(OresIndex + 1, new PassLegacy("YINGYANG Ores",GenerateCyan_Fe));
             }
+            int dungeonIndex = tasks.FindIndex(pass => pass.Name.Equals("dungeon",StringComparison.OrdinalIgnoreCase));
+            if(dungeonIndex != -1)
+            {
+                tasks.Insert(dungeonIndex + 1, new PassLegacy("YINGYANG Dungeon Chests",GenerateBloodyChestsInDungeon));
+            }
         }
         private void GenerateCyan_Fe(GenerationProgress progress, GameConfiguration config)
         {
@@ -31,15 +38,89 @@ namespace YINGYANG.Content.WorldGenarate
             int MinLayerY = (int)Main.rockLayer;
             int MaxLayerY = Main.maxTilesY - 200;
             //Gen
-            for (int i = 0 ; i < OreVein; i++)
+            for (int i = 0; i < OreVein; i++)
             {
                 int x = WorldGen.genRand.Next(0, Main.maxTilesX);
-                int y = WorldGen.genRand.Next(MinLayerY,MaxLayerY);
+                int y = WorldGen.genRand.Next(MinLayerY, MaxLayerY);
                 double VeinThickness = WorldGen.genRand.Next(4, 8);
                 int VeinLength = WorldGen.genRand.Next(3, 7);
                 WorldGen.TileRunner(x, y, VeinThickness, VeinLength, OreTileType);
             }
+        }
+        
+        private void GenerateBloodyChestsInDungeon(GenerationProgress progress, GameConfiguration config)
+        {
+            progress.Message = "封印魔尊的爪牙";
+            int tileType = ModContent.TileType<Bloody_Chest>();
+            int targetCount = 2; // 目标生成数量，根据需要调整
+            int placed = 0;
+            int scanned = 0;
+            List<Point> dungeonChestPositions = [];
 
+            // 先收集地牢中已有箱子的坐标
+            for (int chestIndex = 0; chestIndex < Main.maxChests; chestIndex++)
+            {
+                Chest chest = Main.chest[chestIndex];
+                if (chest == null) continue;
+
+                int x = chest.x;
+                int y = chest.y;
+                scanned++;
+
+                if (!Main.wallDungeon[Main.tile[x, y].WallType]) continue;
+                dungeonChestPositions.Add(new Point(x, y));
+            }
+
+            // 打乱顺序后替换前 targetCount 个，避免总是固定位置
+            for (int i = dungeonChestPositions.Count - 1; i > 0; i--)
+            {
+                int j = WorldGen.genRand.Next(i + 1);
+                (dungeonChestPositions[i], dungeonChestPositions[j]) = (dungeonChestPositions[j], dungeonChestPositions[i]);
+            }
+
+            for (int i = 0; i < dungeonChestPositions.Count && placed < targetCount; i++)
+            {
+                int x = dungeonChestPositions[i].X;
+                int y = dungeonChestPositions[i].Y;
+
+                // 最稳方案：直接把已有箱子改成自定义箱子的锁定样式，保留原 chest 数据
+                // 锁定样式 frameX 基准为 36（style 1）
+                bool valid = true;
+                for (int dx = 0; dx < 2; dx++)
+                {
+                    for (int dy = 0; dy < 2; dy++)
+                    {
+                        Tile tile = Main.tile[x + dx, y + dy];
+                        if (!tile.HasTile)
+                        {
+                            valid = false;
+                            break;
+                        }
+
+                        tile.TileType = (ushort)tileType;
+                        tile.TileFrameX = (short)(36 + dx * 18);
+                        tile.TileFrameY = (short)(dy * 18);
+                    }
+                    if (!valid) break;
+                }
+
+                if (valid)
+                {
+                    placed++;
+                }
+            }
+            int BloodChestIndex = Chest.FindChest(dungeonChestPositions[0].X, dungeonChestPositions[0].Y);
+            Chest BChest = Main.chest[BloodChestIndex];
+            if (BloodChestIndex >= -1)
+            {
+                Chest chest = Main.chest[BloodChestIndex];
+                for (int k = 0; k < Chest.maxItems; k++)
+                {
+                    chest.item[k].TurnToAir();
+                }
+            }
+            BChest.item[0].SetDefaults(ModContent.ItemType<SummonDark_eye>());
+            Mod.Logger.Info($"[YINGYANG] Dungeon bloody chest gen: placed {placed}/{targetCount}, scanned {scanned} chests");
         }
     }
 }

@@ -42,6 +42,8 @@ namespace YINGYANG.Content.npc
             // 选择最近的玩家作为目标
             NPC.TargetClosest(faceTarget: true);
             Player player = Main.player[NPC.target];
+            NPC.direction = player.Center.X >= NPC.Center.X ? 1 : -1;
+            NPC.spriteDirection = NPC.direction;
             if (!player.active || player.dead)
             {
                 NPC.velocity *= 0.9f;
