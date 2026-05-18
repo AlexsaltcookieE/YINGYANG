@@ -95,12 +95,18 @@ Projectiles: {
 	Shadow_hand_EXPOSE.DisplayName: 暗影爪自爆
 	Ghost_aero.DisplayName: 鬼指
 	Cyan_Dragon.DisplayName: 青龙偃月刀
+	Cyan_Dragon_H.DisplayName: Cyan_ Dragon_ H
 }
 
 Buffs: {
 	Evil_aura: {
 		DisplayName: 煞气中伤
 		Description: 你使用的生命药水无法恢复生命!
+	}
+
+	BreakLeg: {
+		DisplayName: Break Leg
+		Description: Mods.YINGYANG.Buffs.BreakLeg.Description
 	}
 }
 

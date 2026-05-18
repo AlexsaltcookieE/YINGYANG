@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using YINGYANG.Content.Projectiles;
@@ -9,11 +10,11 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
     [AutoloadBossHead]
     public class Captain_Army_Ghost : ModNPC
     {
-        private bool Cal = false;
-        private int CalDir;
+        private bool Teleport_Sound = false;
+        private bool StateEnd = false;
+        private int ProjectTime = 3;
         private int ProjectCoolTimer;
         private bool Thorn = false;
-        private bool BossLeftSide;
         private int BossEscapeTimer;//逃脱计时器
         private int BossEscapeDelay = 180;//倒数计时器
         private int BossEscapeDistance = 3200;//逃脱距离
@@ -32,17 +33,18 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
         private enum BossState
         {
             Idle = 0,
-            Move = 1,
-            Attack = 2
+            Aero = 1,
         }
         public override void SetDefaults()
         {
             NPC.boss = true;
+            NPC.noGravity = true;
             NPC.width = 20;
             NPC.height = 32;
             NPC.damage = 20;
             NPC.defense = 8;
             NPC.lifeMax = 1200;
+            NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.value = 60f;
@@ -69,16 +71,16 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
             NPC.direction = player.Center.X >= NPC.Center.X ? 1 : -1;
             NPC.spriteDirection = NPC.direction;
             NPC.TargetClosest(faceTarget: false);//选最近玩家 同时不让NPC转向目标方向
-            if(NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)//如果没有寻找到存活的玩家
+            if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)//如果没有寻找到存活的玩家
             {
                 Despawn();
                 return;
             }
             float distance = Microsoft.Xna.Framework.Vector2.Distance(NPC.Center, player.Center);
-            if(distance > BossEscapeDistance)
+            if (distance > BossEscapeDistance)
             {
                 BossEscapeTimer++;
-                if(BossEscapeTimer >= BossEscapeDelay)
+                if (BossEscapeTimer >= BossEscapeDelay)
                 {
                     Despawn();
                     return;
@@ -89,11 +91,17 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
                 BossEscapeTimer = 0;
             }
             //----------------------------------Ai----------------------------------
-            ProjectCoolTimer++;
+            if (CurrentBossState == BossState.Idle || CurrentBossState == BossState.Aero)
+            {
+                ProjectCoolTimer++;
+            }
             switch (CurrentBossState)
             {
                 case BossState.Idle:
                     DoIdle(player);
+                    break;
+                case BossState.Aero:
+                    DoAero(player);
                     break;
             }
         }
@@ -108,11 +116,12 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
         private void RandomBossState(BossState? blockedState = null)
         {
             BossStateTimer = 0;
+            ProjectCoolTimer = 0;
             BossCoolDown = 30;
             BossState next;
             do
             {
-                next = (BossState)Main.rand.Next(0, 3); // 0..2 for Idle, Move, Attack
+                next = (BossState)Main.rand.Next(0, 2); // 0..2 for Idle, Aero, Attack
             }
             while (next == CurrentBossState || (blockedState.HasValue && next == blockedState.Value));
             CurrentBossState = next;
@@ -131,31 +140,93 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
 
         private void DoIdle(Player target)
         {
+            //NPC.velocity.X = target.velocity.X;
+            //NPC.velocity.Y = target.velocity.Y;
             //执行Idle状态的行为
-            if (BossStateTimer < 120)
+            bool isAttacking = (BossStateTimer > 60 && BossStateTimer < 120 && StateEnd == false);
+            if (!isAttacking && BossStateTimer <= 10)
             {
+                if (!Teleport_Sound)
+                {
+                    SoundEngine.PlaySound(SoundID.Item6, NPC.Center);
+                    for (int i = 0; i < 30; i++)
+                    {
+                        Vector2 speed = Main.rand.NextVector2Circular(10f, 10f);
+                        Dust.NewDust(NPC.Center, 0, 0, DustID.GoldFlame, speed.X, speed.Y);
+                    }
+                    Teleport_Sound = true;
+                }
+            }
+            if (!isAttacking && BossStateTimer >= 20 && BossStateTimer <60)
+            {
+                
+                float offsetX = 140f;
+                float offsetY = 0f;
+                Vector2 targetPos = new Vector2(target.Center.X + offsetX, target.Center.Y + offsetY);
+                NPC.Center = targetPos;
+            }
+            if (isAttacking)
+            {
+                if (Teleport_Sound)
+                {
+                    for (int i = 0; i < 30; i++)
+                    {
+                        Vector2 speed = Main.rand.NextVector2Circular(10f, 10f);
+                        Dust.NewDust(NPC.Center, 0, 0, DustID.GoldFlame, speed.X, speed.Y);
+                        Teleport_Sound = false;
+                    }
+                }
+                NPC.velocity = Vector2.Zero;
                 Microsoft.Xna.Framework.Vector2 ProjectileToTarget = target.Center - NPC.Center;
                 Microsoft.Xna.Framework.Vector2 ThornVector;
                 if (ProjectileToTarget != Microsoft.Xna.Framework.Vector2.Zero)
                 {
                     ProjectileToTarget.Normalize();
                 }
-                if (ProjectCoolTimer >= 60 && !Thorn)
+                if (ProjectCoolTimer >= 80 && !Thorn)
                 {
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center,ProjectileToTarget, ModContent.ProjectileType<Cyan_Dragon>(), 10, 1f, Main.myPlayer, NPC.whoAmI, 2f);
-                        Thorn = true;
-                        if (Thorn)
-                        {
-                        }
-                    }
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, ProjectileToTarget, ModContent.ProjectileType<Cyan_Dragon_H>(), 10, 1f, Main.myPlayer, NPC.whoAmI, 2f);
+                    Thorn = true;
+
                 }
-                else
+                if (Thorn && ProjectCoolTimer >= 110)
                 {
-                    BossStateTimer = 0;
-                    RandomBossState();
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, ProjectileToTarget * 13f, ModContent.ProjectileType<Cyan_Dragon>(), 10, 1f, Main.myPlayer, NPC.whoAmI, 1f);
+                    ProjectCoolTimer = 0;
+                    Thorn = false;
+                    StateEnd = true;
                 }
                 //例如：站立、播放动画等
             }
+            else if(StateEnd)
+            {
+                StateEnd = false;
+
+                Teleport_Sound = false;
+                RandomBossState();
+            }
+        }
+        private void DoAero(Player target)
+        {
+            if (BossStateTimer <= 2000)
+            {
+                if(ProjectCoolTimer >= 40 && ProjectTime >= 0)
+                {
+                    ProjectCoolTimer = 0;
+                    ProjectTime--;
+                    Microsoft.Xna.Framework.Vector2 ProjectileToTarget = Vector2.Zero;
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(),NPC.Center,ProjectileToTarget, ModContent.ProjectileType<Ghost_aero>(), 10, 1f, Main.myPlayer, NPC.whoAmI, 1f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, ProjectileToTarget, ModContent.ProjectileType<Ghost_aero>(), 10, 1f, Main.myPlayer, NPC.whoAmI, 2f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, ProjectileToTarget, ModContent.ProjectileType<Ghost_aero>(), 10, 1f, Main.myPlayer, NPC.whoAmI, 3f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, ProjectileToTarget, ModContent.ProjectileType<Ghost_aero>(), 10, 1f, Main.myPlayer, NPC.whoAmI, 4f);
+                    if (ProjectTime == 0)
+                    {
+                        ProjectTime = 3;
+                        RandomBossState();
+                    }
+                }
+            }
+        }
         public override void FindFrame(int frameHeight)
         {
             FrameCounter++;

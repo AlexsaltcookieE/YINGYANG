@@ -9,7 +9,7 @@ using YINGYANG.Content.Buffs;
 
 namespace YINGYANG.Content.Projectiles
 {
-    public class Cyan_Dragon : ModProjectile
+    public class Cyan_Dragon_H : ModProjectile
     {
         private const int thornDistance = 16;
         private int ThornSpeed;
@@ -25,9 +25,8 @@ namespace YINGYANG.Content.Projectiles
 
         public override void SetDefaults()
         {
-            Projectile.scale = 4.5f;
-            Projectile.width = 100;
-            Projectile.height = 100;
+            Projectile.width = 450;
+            Projectile.height = 85;
             Projectile.friendly = false;
             Projectile.hostile = true;
             Projectile.penetrate = -1;
@@ -39,19 +38,6 @@ namespace YINGYANG.Content.Projectiles
 
         public override void AI()
         {
-            if (Projectile.ai[1] == 1f)
-            {
-                int npcIndex = (int)Projectile.ai[0];
-                if (npcIndex < 0 || npcIndex >= Main.maxNPCs || !Main.npc[npcIndex].active)
-                {
-                    Projectile.Kill();
-                    return;
-                }
-                NPC OwnerNpc = Main.npc[npcIndex];
-                Player targetPlayer = Main.player[OwnerNpc.target];
-                Vector2 Toplayer = OwnerNpc.Center - targetPlayer.Center;
-                Projectile.rotation += 0.4f;
-            }
 
             if (Projectile.ai[1] == 2f)
             {
@@ -74,7 +60,7 @@ namespace YINGYANG.Content.Projectiles
                             CalNumb = targetPlayer.Center.X > OwnerNpc.Center.X ? 0 : 1;
                             Cal = true;
                             Lock = false;
-                            Projectile.rotation = CalNumb == 0 ? MathHelper.PiOver2 : -MathHelper.PiOver2;
+                            Projectile.rotation = CalNumb == 0 ? -MathHelper.Pi*2 : MathHelper.Pi;
                         }
 
                         int direction = CalNumb == 0 ? 1 : -1;
@@ -98,17 +84,31 @@ namespace YINGYANG.Content.Projectiles
                 }
             }
         }
-        public override bool PreDraw(ref Color lightColor)
-        {
-            Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
-            Vector2 origin = new Vector2(texture.Width / 2f,texture.Height / 2f);
-            SpriteEffects effects = SpriteEffects.None;
-            Main.EntitySpriteDraw(texture,Projectile.Center - Main.screenPosition,null,lightColor,Projectile.rotation,origin,Projectile.scale,effects,0);
-            return false;
-        }
+
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            target.AddBuff(ModContent.BuffType<BreakLeg>(), 60 * 2);
+
+            target.AddBuff(ModContent.BuffType<BreakLeg>(),60 * 2);
+        }
+
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D texture = TextureAssets.Projectile[Type].Value;
+            Rectangle frame = texture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
+            Vector2 drawPos = Projectile.Center - Main.screenPosition;
+            Vector2 origin = frame.Size() * 0.5f;
+
+            // Make sprite size match hitbox size (width/height) exactly.
+            Vector2 drawScale = new Vector2
+            (
+                Projectile.width / (float)frame.Width,
+                Projectile.height / (float)frame.Height
+            );
+            
+            SpriteEffects effects = Projectile.spriteDirection < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            Main.EntitySpriteDraw(texture, drawPos, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, drawScale, effects);
+            return false;
         }
     }
 }
