@@ -96,6 +96,7 @@ Projectiles: {
 	Ghost_aero.DisplayName: 鬼指
 	Cyan_Dragon.DisplayName: 青龙偃月刀
 	Cyan_Dragon_H.DisplayName: Cyan_ Dragon_ H
+	Ghost_Hook.DisplayName: Ghost_ Hook
 }
 
 Buffs: {

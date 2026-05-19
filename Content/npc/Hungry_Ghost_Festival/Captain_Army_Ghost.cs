@@ -1,4 +1,6 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json.Bson;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -34,6 +36,7 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
         {
             Idle = 0,
             Aero = 1,
+            Hook = 2
         }
         public override void SetDefaults()
         {
@@ -91,7 +94,7 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
                 BossEscapeTimer = 0;
             }
             //----------------------------------Ai----------------------------------
-            if (CurrentBossState == BossState.Idle || CurrentBossState == BossState.Aero)
+            if (CurrentBossState == BossState.Idle || CurrentBossState == BossState.Aero || CurrentBossState == BossState.Hook)
             {
                 ProjectCoolTimer++;
             }
@@ -102,6 +105,9 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
                     break;
                 case BossState.Aero:
                     DoAero(player);
+                    break;
+                case BossState.Hook:
+                    DoHook(player);
                     break;
             }
         }
@@ -121,7 +127,7 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
             BossState next;
             do
             {
-                next = (BossState)Main.rand.Next(0, 2); // 0..2 for Idle, Aero, Attack
+                next = (BossState)Main.rand.Next(0, 3); // 0..2 for Idle, Aero, Attack
             }
             while (next == CurrentBossState || (blockedState.HasValue && next == blockedState.Value));
             CurrentBossState = next;
@@ -222,9 +228,27 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
                     if (ProjectTime == 0)
                     {
                         ProjectTime = 3;
-                        RandomBossState();
+                        RandomBossState(BossState.Idle);
                     }
                 }
+            }
+        }
+        private void DoHook(Player target)
+        {
+            if (BossStateTimer < 200)
+            {
+                if (ProjectCoolTimer > 100 && ProjectTime >= 1)
+                {
+                    ProjectCoolTimer = 0;
+                    ProjectTime--;
+                    Microsoft.Xna.Framework.Vector2 ProjectileToTarget = Vector2.Normalize(target.Center - NPC.Center);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, ProjectileToTarget * 40f, ModContent.ProjectileType<Ghost_Hook>(), 10, 0f, Main.myPlayer, NPC.whoAmI, 1f);
+                }
+            }
+            else
+            {
+                ProjectTime = 3;
+                RandomBossState(BossState.Idle);
             }
         }
         public override void FindFrame(int frameHeight)
