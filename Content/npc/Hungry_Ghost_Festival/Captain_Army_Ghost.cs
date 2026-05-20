@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using YINGYANG.Content.Buffs;
 using YINGYANG.Content.Projectiles;
 
 namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
@@ -12,6 +13,7 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
     [AutoloadBossHead]
     public class Captain_Army_Ghost : ModNPC
     {
+        private int GhostAeraWhoAmI = -1;
         private bool Teleport_Sound = false;
         private bool StateEnd = false;
         private int ProjectTime = 3;
@@ -22,9 +24,10 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
         private int BossEscapeDistance = 3200;//逃脱距离
         private const int FrameSpeed = 6;
         private int FrameCounter;
-        private BossState CurrentBossState = BossState.Idle;
+        public BossState CurrentBossState = BossState.Idle;
         private int BossStateTimer = 0;
         private int BossCoolDown = 0;
+        private bool SummonRes = false;
         public override void SetStaticDefaults()//BOSS预设值
         {
             // Ensure Terraria treats this ModNPC as a real boss for UI/progression behavior.
@@ -32,7 +35,7 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
             NPCID.Sets.BossBestiaryPriority.Add(Type);
             Main.npcFrameCount[Type] = 3;
         }
-        private enum BossState
+        public enum BossState
         {
             Idle = 0,
             Aero = 1,
@@ -54,6 +57,8 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
             NPC.knockBackResist = 0f;
             NPC.aiStyle = -1;
             NPC.scale = 2f;
+            Music = MusicLoader.GetMusicSlot(Mod, "Content/Music/Boss_fight/GhostArmy");
+
         }
         private int BossDir()
         {
@@ -69,6 +74,7 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
         }
         public override void AI()
         {
+            //限制圈
             BossStateTimer++;
             Player player = Main.player[NPC.target];
             NPC.direction = player.Center.X >= NPC.Center.X ? 1 : -1;
@@ -209,11 +215,18 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
                 StateEnd = false;
 
                 Teleport_Sound = false;
-                RandomBossState();
+                RandomBossState(BossState.Aero);
             }
         }
         private void DoAero(Player target)
         {
+            if (!SummonRes)
+            {
+                Projectile projR = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<Ghost_Restriction_Ring>(), 0, 0f, Main.myPlayer);
+                projR.ai[0] = NPC.whoAmI;
+                GhostAeraWhoAmI = projR.whoAmI;
+                SummonRes = true;
+            }
             if (BossStateTimer <= 2000)
             {
                 if(ProjectCoolTimer >= 40 && ProjectTime >= 0)
@@ -221,6 +234,15 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
                     ProjectCoolTimer = 0;
                     ProjectTime--;
                     Microsoft.Xna.Framework.Vector2 ProjectileToTarget = Vector2.Zero;
+                    Microsoft.Xna.Framework.Vector2 toTarget = target.Center - NPC.Center;
+                    float chaseSpeed = 8f;//速度
+                    float SpeedUP = 0.2f;//加速度
+                    if (toTarget != Microsoft.Xna.Framework.Vector2.Zero)
+                    {
+                        toTarget.Normalize();
+                    }
+                    Microsoft.Xna.Framework.Vector2 ChaseVelocity = toTarget * chaseSpeed;//向量
+                    NPC.velocity = Microsoft.Xna.Framework.Vector2.Lerp(NPC.velocity, ChaseVelocity, SpeedUP);//NPC的速度
                     Projectile.NewProjectile(NPC.GetSource_FromAI(),NPC.Center,ProjectileToTarget, ModContent.ProjectileType<Ghost_aero>(), 10, 1f, Main.myPlayer, NPC.whoAmI, 1f);
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, ProjectileToTarget, ModContent.ProjectileType<Ghost_aero>(), 10, 1f, Main.myPlayer, NPC.whoAmI, 2f);
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, ProjectileToTarget, ModContent.ProjectileType<Ghost_aero>(), 10, 1f, Main.myPlayer, NPC.whoAmI, 3f);
@@ -228,27 +250,40 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
                     if (ProjectTime == 0)
                     {
                         ProjectTime = 3;
-                        RandomBossState(BossState.Idle);
+                        SummonRes = false;
+                        RandomBossState();
                     }
                 }
             }
         }
         private void DoHook(Player target)
         {
-            if (BossStateTimer < 200)
+            if (!SummonRes)
             {
+                Projectile projR = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<Ghost_Restriction_Ring>(), 0, 0f, Main.myPlayer);
+                projR.ai[0] = NPC.whoAmI;
+                GhostAeraWhoAmI = projR.whoAmI;
+                SummonRes = true;
+            }
+            else if (BossStateTimer < 200)
+            {
+                NPC.velocity = NPC.velocity * 0;
                 if (ProjectCoolTimer > 100 && ProjectTime >= 1)
                 {
                     ProjectCoolTimer = 0;
                     ProjectTime--;
                     Microsoft.Xna.Framework.Vector2 ProjectileToTarget = Vector2.Normalize(target.Center - NPC.Center);
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, ProjectileToTarget * 40f, ModContent.ProjectileType<Ghost_Hook>(), 10, 0f, Main.myPlayer, NPC.whoAmI, 1f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, ProjectileToTarget * 40f, ModContent.ProjectileType<Ghost_Hook>(), 10, -100f, Main.myPlayer, NPC.whoAmI, 1f);
                 }
             }
             else
             {
-                ProjectTime = 3;
-                RandomBossState(BossState.Idle);
+                if (!target.HasBuff(ModContent.BuffType<Ghost_Hooked>()))
+                {
+                    ProjectTime = 3;
+                    SummonRes = false;
+                    RandomBossState(BossState.Idle);
+                }
             }
         }
         public override void FindFrame(int frameHeight)

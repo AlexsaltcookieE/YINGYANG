@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using YINGYANG.Content.Buffs;
 using static tModPorter.ProgressUpdate;
 
 namespace YINGYANG.Content.Projectiles
@@ -19,7 +20,7 @@ namespace YINGYANG.Content.Projectiles
         private int ProjectileTimer;
         private bool ReachMaxLength;
         private int State = 0;
-        private const int maxChains = 20;
+        private const int maxChains = 40;
         public override void SetDefaults()
         {
             Projectile.width = 10;
@@ -32,9 +33,11 @@ namespace YINGYANG.Content.Projectiles
             Projectile.timeLeft = 800;
             Projectile.aiStyle = -1;
             Projectile.hide = false;
+            Projectile.knockBack = -100;
         }
         public override void AI()
         {
+            Projectile.knockBack = -100;
             ProjectileTimer++;
             int npcIndex = (int)Projectile.ai[0];
             if (npcIndex < 0 || npcIndex >= Main.maxNPCs || !Main.npc[npcIndex].active)
@@ -54,62 +57,98 @@ namespace YINGYANG.Content.Projectiles
             int currentChains = (int)(currentLength / chainSegmentLength);
             switch (State)
             {
-                case 0: // 伸展阶段
+                case 0:
+                    // 伸展阶段
                     Vector2 ToPlayer = Vector2.Normalize(targetPlayer.Center - OwnerNpc.Center);
                     Projectile.velocity = ToPlayer * 40f;
                     Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
-
-                    // 检测是否击中玩家
+                    //检测是否击中玩家
                     foreach (Player p in Main.player)
                     {
                         if (!p.active || p.dead) continue;
                         if (Projectile.Hitbox.Intersects(p.Hitbox))
-                        {
+                        {        
                             HasHitPlayer = true;
                             grabbedPlayer = p.whoAmI;
                             Projectile.velocity = Vector2.Zero;
                             State = 1; // 进入暂停阶段
                             ProjectileTimer = 0;
-                            break;
+                            targetPlayer.AddBuff(ModContent.BuffType<Ghost_Hooked>(), 60 * 2);
+                            break;  
                         }
-                    }
-
-                    // 检测是否达到最大长度
-                    if (currentChains >= maxChains)
-                    {
-                        Projectile.velocity = Vector2.Zero; // 停止
-                        State = 1; // 进入暂停阶段
-                        ProjectileTimer = 0;
+                        //检测是否达到最大长度
+                        if (currentChains >= maxChains)
+                        {
+                            Projectile.velocity = Vector2.Zero; // 停止
+                            State = 1; // 进入暂停阶段
+                            ProjectileTimer = 0;
+                        }
                     }
                     break;
 
                 case 1: // 暂停阶段（无论是击中了还是飞远了，都在这停顿一下）
-                    if (ProjectileTimer > 60) // 停顿60帧
-                    {
-                        State = 2; // 进入缩回阶段
-                        ProjectileTimer = 0;
-                    }
-                    break;
+                        if (HasHitPlayer)
+                        {
+                            Player p = Main.player[grabbedPlayer];
+                            if (!p.active || p.dead || !p.HasBuff(ModContent.BuffType<Ghost_Hooked>()))
+                            {
+                                State = 2; // 进入缩回阶段
+                                ProjectileTimer = 0;
+                            }
+                            else
+                            {
+                                Projectile.timeLeft = 800;
+                                State = 1;
+                                ProjectileTimer = 1;
+                            }
+                        }
+                        else if (ProjectileTimer > 60) // 停顿60帧
+                        {
+                            State = 2; // 进入缩回阶段
+                            ProjectileTimer = 0;
+                        }
+                        break;
 
                 case 2: // 缩回阶段
-                        // 此时 HookOrigin 应该跟随Boss，否则链子会连在空气里
-                    HookOrigin = OwnerNpc.Center;
+                                // 此时 HookOrigin 应该跟随Boss，否则链子会连在空气里
+                       HookOrigin = OwnerNpc.Center;
 
-                    Vector2 ToBoss = OwnerNpc.Center - Projectile.Center;
-                    float distanceToBoss = ToBoss.Length();
+                       Vector2 ToBoss = OwnerNpc.Center - Projectile.Center;
+                       float distanceToBoss = ToBoss.Length();
 
-                    if (distanceToBoss < 30f)
-                    {
-                        Projectile.Kill();
-                    }
-                    else
-                    {
-                        ToBoss.Normalize();
-                        Projectile.velocity = ToBoss * 15f;
-                        Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
-                    }
-                    break;
+                       if (distanceToBoss < 30f)
+                       {
+                           Projectile.Kill();
+                       }
+                       else
+                       {
+                            ToBoss.Normalize();
+                            Projectile.velocity = ToBoss * 15f;
+                            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+                       }
+                       break;
+                        
             }
+                    
+        }
+        //public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        //{
+        //    // 击中玩家后的逻辑
+        //    if (!HasHitPlayer)
+        //    {
+        //        HasHitPlayer = true;
+        //        grabbedPlayer = target.whoAmI;
+        //       Projectile.velocity = Vector2.Zero;
+        //        State = 1; // 进入暂停阶段
+        //       ProjectileTimer = 0;
+        //    }
+        //    base.OnHitPlayer(target, info);
+        //}
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
+        {
+            // 强制将击退倍数设为0，无论其他加成如何
+            modifiers.Knockback *= 0;
+            base.ModifyHitPlayer(target, ref modifiers);
         }
         public override bool PreDraw(ref Color lightColor)
         {

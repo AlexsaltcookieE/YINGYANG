@@ -67,7 +67,11 @@ Items: {
 
 	Cyan_Fe_Ingot_item: {
 		DisplayName: 青铁锭
-		Tooltip: ""
+		Tooltip:
+			'''
+			一种以韧性和柔软著称的金属矿石通过特殊炼制而成的锭块
+			能熔炼成许多兵器和法宝
+			'''
 	}
 
 	Bloody_Chest_item: {
@@ -92,11 +96,12 @@ Projectiles: {
 	LXYIron.DisplayName: 李逍遥的铁剑
 	LXYPeachWood.DisplayName: 李逍遥的木剑
 	Dead_ray.DisplayName: 死亡光波
-	Shadow_hand_EXPOSE.DisplayName: 暗影爪自爆
-	Ghost_aero.DisplayName: 鬼指
+	Shadow_hand_EXPOSE.DisplayName: 符咒暗影爪
+	Ghost_aero.DisplayName: 幽冥魂指
 	Cyan_Dragon.DisplayName: 青龙偃月刀
-	Cyan_Dragon_H.DisplayName: Cyan_ Dragon_ H
-	Ghost_Hook.DisplayName: Ghost_ Hook
+	Cyan_Dragon_H.DisplayName: 青锋龙刺
+	Ghost_Hook.DisplayName: 魂钩
+	Ghost_Restriction_Ring.DisplayName: Ghost_ Restriction_ Ring
 }
 
 Buffs: {
@@ -106,8 +111,13 @@ Buffs: {
 	}
 
 	BreakLeg: {
-		DisplayName: Break Leg
-		Description: Mods.YINGYANG.Buffs.BreakLeg.Description
+		DisplayName: 断腿
+		Description: 你的脚废了 连踩油门都不行 （或许钩爪，靴子，传送可以帮你?）
+	}
+
+	Ghost_Hooked: {
+		DisplayName: 被魂钩钩住了
+		Description: 你啥也干不了 只能拼命挣扎了
 	}
 }
 
