@@ -199,7 +199,6 @@ namespace YINGYANG.Content.Projectiles
                             0f
                         );
                     }
-
                     // 6. 绘制钩子头部（接在链子末端）
                     // 头部贴图原点：假设20x20的贴图，上端中心是连接点
                     Vector2 headOrigin = new Vector2(headTex.Width / 2f, 0f);

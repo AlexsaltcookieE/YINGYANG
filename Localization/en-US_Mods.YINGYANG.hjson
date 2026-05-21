@@ -102,6 +102,8 @@ Projectiles: {
 	Cyan_Dragon_H.DisplayName: 青锋龙刺
 	Ghost_Hook.DisplayName: 魂钩
 	Ghost_Restriction_Ring.DisplayName: Ghost_ Restriction_ Ring
+	Milion_Arrow.DisplayName: Milion_ Arrow
+	Ghost_Explosion.DisplayName: Ghost_ Explosion
 }
 
 Buffs: {

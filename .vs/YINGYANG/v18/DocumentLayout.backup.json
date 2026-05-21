@@ -3,32 +3,40 @@
   "WorkspaceRootPath": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\content\\projectiles\\ghost_hook.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:content\\projectiles\\ghost_hook.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\content\\buffs\\ghost_hooked.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:content\\buffs\\ghost_hooked.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\content\\npc\\hungry_ghost_festival\\captain_army_ghost.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:content\\npc\\hungry_ghost_festival\\captain_army_ghost.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\content\\projectiles\\ghost_explosion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:content\\projectiles\\ghost_explosion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\content\\projectiles\\ghost_restriction_ring.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:content\\projectiles\\ghost_restriction_ring.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\content\\npc\\globalnpc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:content\\npc\\globalnpc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\content\\projectiles\\cyan_dragon.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:content\\projectiles\\cyan_dragon.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\content\\buffs\\breakleg.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:content\\buffs\\breakleg.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\content\\npc\\shadow_hand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:content\\npc\\shadow_hand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\content\\npc\\dark_eyes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:content\\npc\\dark_eyes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\content\\buffs\\evil_aura.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:content\\buffs\\evil_aura.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\content\\projectiles\\ghost_restriction_ring.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:content\\projectiles\\ghost_restriction_ring.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\content\\projectiles\\milion_arrow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:content\\projectiles\\milion_arrow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|d:\\\u6587\u6863\\my games\\terraria\\tmodloader\\modsources\\yingyang\\content\\projectiles\\warning_system.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F9E17B03-9841-002A-CCA8-7FC09D9CA0C7}|YINGYANG.csproj|solutionrelative:content\\projectiles\\warning_system.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,97 +46,123 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "Cyan_Dragon.cs",
               "DocumentMoniker": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Projectiles\\Cyan_Dragon.cs",
               "RelativeDocumentMoniker": "Content\\Projectiles\\Cyan_Dragon.cs",
               "ToolTip": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Projectiles\\Cyan_Dragon.cs",
               "RelativeToolTip": "Content\\Projectiles\\Cyan_Dragon.cs",
-              "ViewState": "AgIAAEoAAAAAAAAAAAAUwG4AAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAABYAAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-20T11:57:08.689Z",
+              "WhenOpened": "2026-05-21T15:19:03.38Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "BreakLeg.cs",
-              "DocumentMoniker": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Buffs\\BreakLeg.cs",
-              "RelativeDocumentMoniker": "Content\\Buffs\\BreakLeg.cs",
-              "ToolTip": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Buffs\\BreakLeg.cs",
-              "RelativeToolTip": "Content\\Buffs\\BreakLeg.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAAQwCIAAAAgAAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "Shadow_hand.cs",
+              "DocumentMoniker": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\npc\\Shadow_hand.cs",
+              "RelativeDocumentMoniker": "Content\\npc\\Shadow_hand.cs",
+              "ToolTip": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\npc\\Shadow_hand.cs",
+              "RelativeToolTip": "Content\\npc\\Shadow_hand.cs",
+              "ViewState": "AgIAAGEAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-20T11:50:58.383Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Ghost_Hooked.cs",
-              "DocumentMoniker": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Buffs\\Ghost_Hooked.cs",
-              "RelativeDocumentMoniker": "Content\\Buffs\\Ghost_Hooked.cs",
-              "ToolTip": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Buffs\\Ghost_Hooked.cs",
-              "RelativeToolTip": "Content\\Buffs\\Ghost_Hooked.cs",
-              "ViewState": "AgIAADYAAAAAAAAAAAAYwEYAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-20T11:50:53.832Z",
+              "WhenOpened": "2026-05-21T15:19:00.409Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Ghost_Hook.cs",
-              "DocumentMoniker": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Projectiles\\Ghost_Hook.cs",
-              "RelativeDocumentMoniker": "Content\\Projectiles\\Ghost_Hook.cs",
-              "ToolTip": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Projectiles\\Ghost_Hook.cs",
-              "RelativeToolTip": "Content\\Projectiles\\Ghost_Hook.cs",
-              "ViewState": "AgIAAEgAAAAAAAAAAAAIwGMAAAAgAAAAAAAAAA==",
+              "Title": "Ghost_Hooked.cs",
+              "DocumentMoniker": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Buffs\\Ghost_Hooked.cs",
+              "RelativeDocumentMoniker": "Content\\Buffs\\Ghost_Hooked.cs",
+              "ToolTip": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Buffs\\Ghost_Hooked.cs",
+              "RelativeToolTip": "Content\\Buffs\\Ghost_Hooked.cs",
+              "ViewState": "AgIAAJAAAAAAAAAAAAAowKYAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-20T11:42:28.069Z",
+              "WhenOpened": "2026-05-21T15:16:17.247Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "DARK_EYES.cs",
-              "DocumentMoniker": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\npc\\DARK_EYES.cs",
-              "RelativeDocumentMoniker": "Content\\npc\\DARK_EYES.cs",
-              "ToolTip": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\npc\\DARK_EYES.cs",
-              "RelativeToolTip": "Content\\npc\\DARK_EYES.cs",
-              "ViewState": "AgIAAJQAAAAAAAAAAAAYwNcAAAAnAAAAAAAAAA==",
+              "DocumentIndex": 5,
+              "Title": "Evil_aura.cs",
+              "DocumentMoniker": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Buffs\\Evil_aura.cs",
+              "RelativeDocumentMoniker": "Content\\Buffs\\Evil_aura.cs",
+              "ToolTip": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Buffs\\Evil_aura.cs",
+              "RelativeToolTip": "Content\\Buffs\\Evil_aura.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-20T11:29:39.604Z",
+              "WhenOpened": "2026-05-21T15:16:12.304Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Ghost_Restriction_Ring.cs",
-              "DocumentMoniker": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Projectiles\\Ghost_Restriction_Ring.cs",
-              "RelativeDocumentMoniker": "Content\\Projectiles\\Ghost_Restriction_Ring.cs",
-              "ToolTip": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Projectiles\\Ghost_Restriction_Ring.cs",
-              "RelativeToolTip": "Content\\Projectiles\\Ghost_Restriction_Ring.cs",
-              "ViewState": "AgIAADAAAAAAAAAAAAAIwEYAAABVAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "Ghost_Explosion.cs",
+              "DocumentMoniker": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Projectiles\\Ghost_Explosion.cs",
+              "RelativeDocumentMoniker": "Content\\Projectiles\\Ghost_Explosion.cs",
+              "ToolTip": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Projectiles\\Ghost_Explosion.cs",
+              "RelativeToolTip": "Content\\Projectiles\\Ghost_Explosion.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAAuwCYAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-20T10:42:17.383Z",
+              "WhenOpened": "2026-05-21T14:44:13.123Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Captain_Army_Ghost.cs",
-              "DocumentMoniker": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\npc\\Hungry_Ghost_Festival\\Captain_Army_Ghost.cs",
-              "RelativeDocumentMoniker": "Content\\npc\\Hungry_Ghost_Festival\\Captain_Army_Ghost.cs",
-              "ToolTip": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\npc\\Hungry_Ghost_Festival\\Captain_Army_Ghost.cs",
-              "RelativeToolTip": "Content\\npc\\Hungry_Ghost_Festival\\Captain_Army_Ghost.cs",
-              "ViewState": "AgIAAAoBAAAAAAAAAADwvx0BAAARAAAAAAAAAA==",
+              "Title": "GlobalNPC.cs",
+              "DocumentMoniker": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\npc\\GlobalNPC.cs",
+              "RelativeDocumentMoniker": "Content\\npc\\GlobalNPC.cs",
+              "ToolTip": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\npc\\GlobalNPC.cs",
+              "RelativeToolTip": "Content\\npc\\GlobalNPC.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T06:12:45.957Z",
+              "WhenOpened": "2026-05-21T09:59:10.633Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Warning_System.cs",
+              "DocumentMoniker": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Projectiles\\Warning_System.cs",
+              "RelativeDocumentMoniker": "Content\\Projectiles\\Warning_System.cs",
+              "ToolTip": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Projectiles\\Warning_System.cs",
+              "RelativeToolTip": "Content\\Projectiles\\Warning_System.cs",
+              "ViewState": "AgIAACEAAAAAAAAAAAAIwDoAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-21T05:54:22.522Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Milion_Arrow.cs",
+              "DocumentMoniker": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Projectiles\\Milion_Arrow.cs",
+              "RelativeDocumentMoniker": "Content\\Projectiles\\Milion_Arrow.cs",
+              "ToolTip": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Projectiles\\Milion_Arrow.cs",
+              "RelativeToolTip": "Content\\Projectiles\\Milion_Arrow.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAswBcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-21T02:52:43.872Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Ghost_Restriction_Ring.cs",
+              "DocumentMoniker": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Projectiles\\Ghost_Restriction_Ring.cs",
+              "RelativeDocumentMoniker": "Content\\Projectiles\\Ghost_Restriction_Ring.cs",
+              "ToolTip": "D:\\\u6587\u6863\\My Games\\Terraria\\tModLoader\\ModSources\\YINGYANG\\Content\\Projectiles\\Ghost_Restriction_Ring.cs",
+              "RelativeToolTip": "Content\\Projectiles\\Ghost_Restriction_Ring.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAqwDUAAACUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-21T03:43:02.772Z",
               "EditorCaption": ""
             }
           ]

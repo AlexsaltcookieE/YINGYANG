@@ -97,7 +97,6 @@ namespace YINGYANG.Content.Projectiles // 确保命名空间正确
             // 注意：这里用 Projectile.Center 作为原点，所以 origin 要设为图片中心
             Color color = Color.Green * (1f - Projectile.alpha / 255f);
             Main.spriteBatch.Draw(texture, position, null,color, 0f, texture.Size() / 2, scale, SpriteEffects.None, 0f);
-
             return false;
         }
     }

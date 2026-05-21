@@ -3,6 +3,8 @@ using rail;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using YINGYANG.Content.npc.Hungry_Ghost_Festival;
+using YINGYANG.Content.Projectiles;
 
 namespace YINGYANG.Content.Buffs
 {
@@ -32,6 +34,8 @@ namespace YINGYANG.Content.Buffs
         private int NeedD;
         private bool Randed;
         private int MaxKeyNum = 21;
+        private int HookTimer = 5;
+        private bool EXPLOSION = false;
 
         public override void ResetEffects()
         {
@@ -57,6 +61,10 @@ namespace YINGYANG.Content.Buffs
         {
             if (HasGhost_Hooked)
             {
+                if (!EXPLOSION)
+                {
+                    HookTimer++;
+                }
                 if (_lockedPosition != Vector2.Zero)
                 {
                     Player.position = _lockedPosition;
@@ -120,13 +128,46 @@ namespace YINGYANG.Content.Buffs
             NeedA = 0;
             NeedD = 0;
             Randed = false;
+            HookTimer = 0;
+            EXPLOSION = false;
         }
         private void CheckQTE()
         {
+            bool bossAlive = false;
+            foreach (NPC npc in Main.npc)
+            {
+                if (npc.active && npc.type == ModContent.NPCType<Captain_Army_Ghost>())
+                {
+                    bossAlive = true;
+                    if (HookTimer > 300 && !EXPLOSION)
+                    {
+                        Projectile.NewProjectile(npc.GetSource_FromAI(),Player.position, Vector2.Zero, ModContent.ProjectileType<Ghost_Explosion>(), 10000, 0f, Main.myPlayer, Main.myPlayer);
+                        EXPLOSION = true;
+                    }
+                    break; // 找到了就不需要继续遍历了
+                }
+            }
+            if (!bossAlive)
+            {
+                Player.ClearBuff(ModContent.BuffType<Ghost_Hooked>());
+                for (int i = 0; i < 30; i++)
+                {
+                    Dust.NewDust(Player.position, Player.width, Player.height, DustID.GreenBlood, 0, 0, 100, default, 1.5f);
+                }
+                ResetQTEState();
+                return; // 直接结束，不再执行下面的 QTE 检测
+            }
             if (KeySpaceCount >= NeedSpace && KeyACount >= NeedA && KeyDCount >= NeedD)
             {
                 // 成功挣脱
-                Player.ClearBuff(ModContent.BuffType<Ghost_Hooked>());
+                foreach (Projectile proj in Main.projectile)
+                {
+                    if (proj.active && proj.type == ModContent.ProjectileType<Ghost_Explosion>())
+                    {
+                        proj.Kill();
+                    }
+                }
+                    Player.ClearBuff(ModContent.BuffType<Ghost_Hooked>());
                 for (int i = 0; i < 30; i++)
                 {
                     Dust.NewDust(Player.position, Player.width, Player.height, DustID.GreenBlood, 0, 0, 100, default, 1.5f);

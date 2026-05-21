@@ -14,6 +14,7 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
     public class Captain_Army_Ghost : ModNPC
     {
         private int GhostAeraWhoAmI = -1;
+        private bool LockNum = false;
         private bool Teleport_Sound = false;
         private bool StateEnd = false;
         private int ProjectTime = 3;
@@ -39,7 +40,8 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
         {
             Idle = 0,
             Aero = 1,
-            Hook = 2
+            Hook = 2,
+            Arrow = 3
         }
         public override void SetDefaults()
         {
@@ -60,20 +62,9 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
             Music = MusicLoader.GetMusicSlot(Mod, "Content/Music/Boss_fight/GhostArmy");
 
         }
-        private int BossDir()
-        {
-            Player player = Main.player[NPC.target];
-            if (NPC.Center.X >= player.Center.X)
-            {
-                return 0;
-            }
-            else
-            {
-                return 1;
-            }
-        }
         public override void AI()
         {
+            NPC.netUpdate = true;
             //限制圈
             BossStateTimer++;
             Player player = Main.player[NPC.target];
@@ -127,13 +118,26 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
         }
         private void RandomBossState(BossState? blockedState = null)
         {
+            if (GhostAeraWhoAmI != -1 && GhostAeraWhoAmI < Main.maxProjectiles)
+            {
+                Projectile p = Main.projectile[GhostAeraWhoAmI];
+                if (p.active && p.type == ModContent.ProjectileType<Ghost_Restriction_Ring>())
+                {
+                    p.Kill(); // 杀掉弹幕
+                }
+            }
+            //if (GhostAeraWhoAmI != -1 && Main.projectile[GhostAeraWhoAmI].active)
+            //{
+            //    Main.projectile[GhostAeraWhoAmI].Kill(); // 强制销毁旧圈
+            //    GhostAeraWhoAmI = -1; // 重置 ID
+            //}
             BossStateTimer = 0;
             ProjectCoolTimer = 0;
             BossCoolDown = 30;
             BossState next;
             do
             {
-                next = (BossState)Main.rand.Next(0, 3); // 0..2 for Idle, Aero, Attack
+                next = (BossState)Main.rand.Next(0, 3); // 0..3 for Idle, Aero, Hook, Arrow
             }
             while (next == CurrentBossState || (blockedState.HasValue && next == blockedState.Value));
             CurrentBossState = next;
@@ -213,7 +217,6 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
             else if(StateEnd)
             {
                 StateEnd = false;
-
                 Teleport_Sound = false;
                 RandomBossState(BossState.Aero);
             }
@@ -223,8 +226,17 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
             if (!SummonRes)
             {
                 Projectile projR = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<Ghost_Restriction_Ring>(), 0, 0f, Main.myPlayer);
-                projR.ai[0] = NPC.whoAmI;
-                GhostAeraWhoAmI = projR.whoAmI;
+                //projR.ai[0] = NPC.whoAmI;
+                //GhostAeraWhoAmI = projR.whoAmI;
+                if (projR != null && projR.active)
+                {
+                    projR.ai[0] = NPC.whoAmI;
+                    GhostAeraWhoAmI = projR.whoAmI;
+                }
+                else
+                {
+                    GhostAeraWhoAmI = -1; // 生成失败则重置
+                }
                 SummonRes = true;
             }
             if (BossStateTimer <= 2000)
@@ -261,14 +273,43 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
             if (!SummonRes)
             {
                 Projectile projR = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<Ghost_Restriction_Ring>(), 0, 0f, Main.myPlayer);
-                projR.ai[0] = NPC.whoAmI;
-                GhostAeraWhoAmI = projR.whoAmI;
+                //projR.ai[0] = NPC.whoAmI;
+                //GhostAeraWhoAmI = projR.whoAmI;
+                if (projR != null && projR.active)
+                {
+                    projR.ai[0] = NPC.whoAmI;
+                    GhostAeraWhoAmI = projR.whoAmI;
+                }
+                else
+                {
+                    GhostAeraWhoAmI = -1; // 生成失败则重置
+                }
                 SummonRes = true;
             }
-            else if (BossStateTimer < 200)
+            if (BossStateTimer < 400)
             {
                 NPC.velocity = NPC.velocity * 0;
-                if (ProjectCoolTimer > 100 && ProjectTime >= 1)
+                if(ProjectTime != 6 && !LockNum)
+                {
+                    ProjectTime = 6;
+                    LockNum = true;
+                }
+                if (ProjectCoolTimer > 80 && ProjectTime == 6 && !target.HasBuff(ModContent.BuffType<Ghost_Hooked>()))
+                {
+                    ProjectTime--;
+                    RandArrow();
+                }
+                if(ProjectCoolTimer > 60 && ProjectTime == 4 && !target.HasBuff(ModContent.BuffType<Ghost_Hooked>()))
+                {
+                    ProjectTime--;
+                    RandArrow();
+                }
+                if (ProjectCoolTimer > 60 && ProjectTime == 2 && !target.HasBuff(ModContent.BuffType<Ghost_Hooked>()))
+                {
+                    ProjectTime--;
+                    RandArrow();
+                }
+                    if (ProjectCoolTimer > 100 && ProjectTime >= -6 && !target.HasBuff(ModContent.BuffType<Ghost_Hooked>()))
                 {
                     ProjectCoolTimer = 0;
                     ProjectTime--;
@@ -281,6 +322,7 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
                 if (!target.HasBuff(ModContent.BuffType<Ghost_Hooked>()))
                 {
                     ProjectTime = 3;
+                    LockNum = false;
                     SummonRes = false;
                     RandomBossState(BossState.Idle);
                 }
@@ -300,5 +342,126 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
 
             }
         }
+        public void RandArrow()
+        {
+            int RandDir = Main.rand.Next(0, 5);
+            if (RandDir == 1)
+            {
+                Vector2 ArrowPos1 = new Vector2(NPC.Center.X + 1400, NPC.Center.Y + 1000);
+                Vector2 ArrowPos15 = new Vector2(NPC.Center.X + 2400, NPC.Center.Y + 1000);
+                Vector2 ArrowPos2 = new Vector2(NPC.Center.X + 1200, NPC.Center.Y + 1000);
+                Vector2 ArrowPos3 = new Vector2(NPC.Center.X + 1000, NPC.Center.Y + 1000);
+                Vector2 ArrowPos4 = new Vector2(NPC.Center.X + 800, NPC.Center.Y + 1000);
+                Vector2 ArrowPos5 = new Vector2(NPC.Center.X + 600, NPC.Center.Y + 1000);
+                Vector2 ArrowPos6 = new Vector2(NPC.Center.X + 400, NPC.Center.Y + 1000);
+                Vector2 ArrowPos7 = new Vector2(NPC.Center.X + 200, NPC.Center.Y + 1000);
+                Vector2 ArrowPos8 = new Vector2(NPC.Center.X + 0, NPC.Center.Y + 1000);
+                Vector2 ArrowPos9 = new Vector2(NPC.Center.X + 1600, NPC.Center.Y + 1000);
+                Vector2 ArrowPos10 = new Vector2(NPC.Center.X + 1800, NPC.Center.Y + 1000);
+                Vector2 ArrowPos11 = new Vector2(NPC.Center.X + 2000, NPC.Center.Y + 1000);
+                Vector2 ArrowPos12 = new Vector2(NPC.Center.X - 200, NPC.Center.Y + 1000);
+                Vector2 ArrowPos13 = new Vector2(NPC.Center.X - 400, NPC.Center.Y + 1000);
+                Vector2 ArrowPos14 = new Vector2(NPC.Center.X + 2200, NPC.Center.Y + 1000);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos1, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, -15f, -15f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos2, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, -15f, -15f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos3, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, -15f, -15f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos4, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, -15f, -15f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos5, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, -15f, -15f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos6, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, -15f, -15f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos7, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, -15f, -15f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos8, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, -15f, -15f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos9, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, -15f, -15f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos10, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, -15f, -15f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos11, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, -15f, -15f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos12, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, -15f, -15f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos13, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, -15f, -15f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos14, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, -15f, -15f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos15, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, -15f, -15f);
+            }
+            else if(RandDir == 2)
+            {
+                Vector2 ArrowPos1 = new Vector2(NPC.Center.X + 2200, NPC.Center.Y + 1000);
+                Vector2 ArrowPos2 = new Vector2(NPC.Center.X + 2200, NPC.Center.Y + 800);
+                Vector2 ArrowPos3 = new Vector2(NPC.Center.X + 2200, NPC.Center.Y + 400);
+                Vector2 ArrowPos4 = new Vector2(NPC.Center.X + 2200, NPC.Center.Y + 200);
+                Vector2 ArrowPos5 = new Vector2(NPC.Center.X + 2200, NPC.Center.Y + 0);
+                Vector2 ArrowPos6 = new Vector2(NPC.Center.X + 2200, NPC.Center.Y - 200);
+                Vector2 ArrowPos7 = new Vector2(NPC.Center.X + 2200, NPC.Center.Y - 400);
+                Vector2 ArrowPos8 = new Vector2(NPC.Center.X + 2200, NPC.Center.Y - 600);
+                Vector2 ArrowPos9 = new Vector2(NPC.Center.X + 2200, NPC.Center.Y - 800);
+                Vector2 ArrowPos10 = new Vector2(NPC.Center.X + 2200, NPC.Center.Y - 1000);
+                Vector2 ArrowPos11 = new Vector2(NPC.Center.X + 2200, NPC.Center.Y + 600);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos1, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, -15f, 0f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos2, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, -15f, 0f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos3, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, -15f, 0f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos4, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, -15f, 0f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos5, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, -15f, 0f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos6, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, -15f, 0f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos7, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, -15f, 0f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos8, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, -15f, 0f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos9, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, -15f, 0f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos10, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, -15f, 0f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos11, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, -15f, 0f);
+            }
+            else if(RandDir == 3)
+            {
+                Vector2 ArrowPos1 = new Vector2(NPC.Center.X - 2200, NPC.Center.Y + 1000);
+                Vector2 ArrowPos2 = new Vector2(NPC.Center.X - 2200, NPC.Center.Y + 800);
+                Vector2 ArrowPos3 = new Vector2(NPC.Center.X - 2200, NPC.Center.Y + 400);
+                Vector2 ArrowPos4 = new Vector2(NPC.Center.X - 2200, NPC.Center.Y + 200);
+                Vector2 ArrowPos5 = new Vector2(NPC.Center.X - 2200, NPC.Center.Y + 0);
+                Vector2 ArrowPos6 = new Vector2(NPC.Center.X - 2200, NPC.Center.Y - 200);
+                Vector2 ArrowPos7 = new Vector2(NPC.Center.X - 2200, NPC.Center.Y - 400);
+                Vector2 ArrowPos8 = new Vector2(NPC.Center.X - 2200, NPC.Center.Y - 600);
+                Vector2 ArrowPos9 = new Vector2(NPC.Center.X - 2200, NPC.Center.Y - 800);
+                Vector2 ArrowPos10 = new Vector2(NPC.Center.X - 2200, NPC.Center.Y - 1000);
+                Vector2 ArrowPos11 = new Vector2(NPC.Center.X - 2200, NPC.Center.Y + 600);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos1, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, 15f, 0f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos2, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, 15f, 0f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos3, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, 15f, 0f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos4, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, 15f, 0f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos5, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, 15f, 0f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos6, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, 15f, 0f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos7, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, 15f, 0f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos8, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, 15f, 0f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos9, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, 15f, 0f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos10, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, 15f, 0f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos11, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, 15f, 0f);
+            }
+            else if (RandDir == 4)
+            {
+                Vector2 ArrowPos1 = new Vector2(NPC.Center.X - 1400, NPC.Center.Y + 1000);
+                Vector2 ArrowPos2 = new Vector2(NPC.Center.X - 1200, NPC.Center.Y + 1000);
+                Vector2 ArrowPos3 = new Vector2(NPC.Center.X - 1000, NPC.Center.Y + 1000);
+                Vector2 ArrowPos4 = new Vector2(NPC.Center.X - 800, NPC.Center.Y + 1000);
+                Vector2 ArrowPos5 = new Vector2(NPC.Center.X - 600, NPC.Center.Y + 1000);
+                Vector2 ArrowPos6 = new Vector2(NPC.Center.X - 400, NPC.Center.Y + 1000);
+                Vector2 ArrowPos7 = new Vector2(NPC.Center.X - 200, NPC.Center.Y + 1000);
+                Vector2 ArrowPos8 = new Vector2(NPC.Center.X - 0, NPC.Center.Y + 1000);
+                Vector2 ArrowPos9 = new Vector2(NPC.Center.X - 1600, NPC.Center.Y + 1000);
+                Vector2 ArrowPos10 = new Vector2(NPC.Center.X - 1800, NPC.Center.Y + 1000);
+                Vector2 ArrowPos11 = new Vector2(NPC.Center.X - 2000, NPC.Center.Y + 1000);
+                Vector2 ArrowPos12 = new Vector2(NPC.Center.X + 200, NPC.Center.Y + 1000);
+                Vector2 ArrowPos13 = new Vector2(NPC.Center.X + 400, NPC.Center.Y + 1000);
+                Vector2 ArrowPos14 = new Vector2(NPC.Center.X - 2200, NPC.Center.Y + 1000);
+                Vector2 ArrowPos15 = new Vector2(NPC.Center.X - 2400, NPC.Center.Y + 1000);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos1, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, 15f, -15f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos2, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, 15f, -15f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos3, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, 15f, -15f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos4, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, 15f, -15f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos5, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, 15f, -15f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos6, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, 15f, -15f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos7, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, 15f, -15f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos8, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, 15f, -15f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos9, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, 15f, -15f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos10, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, 15f, -15f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos11, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, 15f, -15f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos12, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, 15f, -15f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos13, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, 15f, -15f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos14, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, 15f, -15f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos15, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, 15f, -15f);
+            }
+        }
+
     }
 }
