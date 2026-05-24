@@ -259,6 +259,13 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, ProjectileToTarget, ModContent.ProjectileType<Ghost_aero>(), 10, 1f, Main.myPlayer, NPC.whoAmI, 2f);
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, ProjectileToTarget, ModContent.ProjectileType<Ghost_aero>(), 10, 1f, Main.myPlayer, NPC.whoAmI, 3f);
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, ProjectileToTarget, ModContent.ProjectileType<Ghost_aero>(), 10, 1f, Main.myPlayer, NPC.whoAmI, 4f);
+                    foreach(Projectile proj in Main.projectile)
+                    {
+                        if(proj != null && proj.type == ModContent.ProjectileType<Ghost_aero>())
+                        {
+                            SoundEngine.PlaySound(SoundID.Item45, proj.Center);
+                        }
+                    }
                     if (ProjectTime == 0)
                     {
                         ProjectTime = 3;
@@ -309,7 +316,7 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
                     ProjectTime--;
                     RandArrow();
                 }
-                    if (ProjectCoolTimer > 100 && ProjectTime >= -6 && !target.HasBuff(ModContent.BuffType<Ghost_Hooked>()))
+                    if (ProjectCoolTimer > 100 && ProjectTime >= -6 && !target.HasBuff(ModContent.BuffType<Ghost_Hooked>()))        
                 {
                     ProjectCoolTimer = 0;
                     ProjectTime--;
@@ -379,7 +386,7 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
                 Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos15, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, -15f, -15f);
             }
             else if(RandDir == 2)
-            {
+            {   
                 Vector2 ArrowPos1 = new Vector2(NPC.Center.X + 2200, NPC.Center.Y + 1000);
                 Vector2 ArrowPos2 = new Vector2(NPC.Center.X + 2200, NPC.Center.Y + 800);
                 Vector2 ArrowPos3 = new Vector2(NPC.Center.X + 2200, NPC.Center.Y + 400);

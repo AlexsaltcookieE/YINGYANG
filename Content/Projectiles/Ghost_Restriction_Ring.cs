@@ -11,7 +11,7 @@ namespace YINGYANG.Content.Projectiles // 确保命名空间正确
     public class Ghost_Restriction_Ring : ModProjectile
     {
         // 限制圈的半径（像素）
-        public const int RestrictionRadius = 1000;
+        public const int RestrictionRadius = 880;
         private bool appear = false;
         public override void SetDefaults()
         {

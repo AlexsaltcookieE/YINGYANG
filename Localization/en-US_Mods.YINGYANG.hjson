@@ -83,6 +83,11 @@ Items: {
 		Tooltip: 解除地牢的封印
 		DisplayName: 流血的钥匙
 	}
+
+	Overlord_Bow: {
+		DisplayName: 霸王弓
+		Tooltip: ""
+	}
 }
 
 NPCs: {
@@ -101,9 +106,14 @@ Projectiles: {
 	Cyan_Dragon.DisplayName: 青龙偃月刀
 	Cyan_Dragon_H.DisplayName: 青锋龙刺
 	Ghost_Hook.DisplayName: 魂钩
-	Ghost_Restriction_Ring.DisplayName: Ghost_ Restriction_ Ring
-	Milion_Arrow.DisplayName: Milion_ Arrow
-	Ghost_Explosion.DisplayName: Ghost_ Explosion
+	Ghost_Restriction_Ring.DisplayName: 画地为牢
+	Milion_Arrow.DisplayName: 万箭齐发
+	Ghost_Explosion.DisplayName: 魂爆
+	WKey.DisplayName: W Key
+	AKey.DisplayName: A Key
+	DKey.DisplayName: D Key
+	SpaceKey.DisplayName: Space Key
+	Bow_of_OverLord.DisplayName: 霸王本色
 }
 
 Buffs: {

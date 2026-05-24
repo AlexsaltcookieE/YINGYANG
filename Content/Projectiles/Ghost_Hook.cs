@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using YINGYANG.Content.Buffs;
@@ -21,6 +22,7 @@ namespace YINGYANG.Content.Projectiles
         private bool ReachMaxLength;
         private int State = 0;
         private const int maxChains = 40;
+        private bool Playsound = false;
         public override void SetDefaults()
         {
             Projectile.width = 10;
@@ -59,6 +61,11 @@ namespace YINGYANG.Content.Projectiles
             {
                 case 0:
                     // 伸展阶段
+                    if (!Playsound)
+                    {
+                        SoundEngine.PlaySound(SoundID.Item18, Projectile.Center);
+                        Playsound = true;
+                    }
                     Vector2 ToPlayer = Vector2.Normalize(targetPlayer.Center - OwnerNpc.Center);
                     Projectile.velocity = ToPlayer * 40f;
                     Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
@@ -67,7 +74,12 @@ namespace YINGYANG.Content.Projectiles
                     {
                         if (!p.active || p.dead) continue;
                         if (Projectile.Hitbox.Intersects(p.Hitbox))
-                        {        
+                        {
+                            if (Playsound)
+                            {
+                                SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
+                                Playsound = false;
+                            }
                             HasHitPlayer = true;
                             grabbedPlayer = p.whoAmI;
                             Projectile.velocity = Vector2.Zero;

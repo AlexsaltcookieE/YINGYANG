@@ -26,9 +26,9 @@ namespace YINGYANG.Content.Buffs
         public bool HasGhost_Hooked;
         private Vector2 _lockedPosition;
         private bool Stuggled;
-        private int KeySpaceCount = 0;
-        private int KeyACount = 0;
-        private int KeyDCount = 0;
+        public int KeySpaceCount = 0;
+        public int KeyACount = 0;
+        public int KeyDCount = 0;
         private int NeedSpace;
         private int NeedA;
         private int NeedD;
@@ -36,6 +36,8 @@ namespace YINGYANG.Content.Buffs
         private int MaxKeyNum = 21;
         private int HookTimer = 5;
         private bool EXPLOSION = false;
+        private bool LockWarning = false;
+        private bool WarningKey = false;
 
         public override void ResetEffects()
         {
@@ -61,6 +63,16 @@ namespace YINGYANG.Content.Buffs
         {
             if (HasGhost_Hooked)
             {
+                if (LockWarning)
+                {
+                    if (!WarningKey)
+                    {
+                        Projectile.NewProjectile(Player.GetSource_FromThis(), new Vector2(Player.Center.X - 190, Player.Center.Y), Vector2.Zero, ModContent.ProjectileType<AKey>(), 0, 0f, Main.myPlayer, NeedA,Player.whoAmI);
+                        Projectile.NewProjectile(Player.GetSource_FromThis(), new Vector2(Player.Center.X + 200, Player.Center.Y), Vector2.Zero, ModContent.ProjectileType<DKey>(), 0, 0f, Main.myPlayer, NeedD, Player.whoAmI);
+                        Projectile.NewProjectile(Player.GetSource_FromThis(), new Vector2(Player.Center.X, Player.Center.Y + 400), Vector2.Zero, ModContent.ProjectileType<SpaceKey>(), 0, 0f, Main.myPlayer, NeedSpace, Player.whoAmI);
+                        WarningKey = true;
+                    }
+                }
                 if (!EXPLOSION)
                 {
                     HookTimer++;
@@ -96,11 +108,15 @@ namespace YINGYANG.Content.Buffs
         }
         private void NextRandNeed()
         {
-            NeedA = Main.rand.Next(0, MaxKeyNum + 1);
-            NeedD = Main.rand.Next(0, MaxKeyNum + 1 - NeedA);
-            NeedSpace = MaxKeyNum - (NeedA + NeedD);
-            Randed = true;
-            Main.NewText($"需要: Space[{NeedSpace}] A[{NeedA}] D[{NeedD}]", Color.Yellow);
+            if(!LockWarning)
+            {
+                LockWarning = true;
+                NeedA = Main.rand.Next(0, MaxKeyNum + 1);
+                NeedD = Main.rand.Next(0, MaxKeyNum + 1 - NeedA);
+                NeedSpace = MaxKeyNum - (NeedA + NeedD);
+                Randed = true;
+                Main.NewText($"需要: Space[{NeedSpace}] A[{NeedA}] D[{NeedD}]", Color.Yellow);
+            }
         }
         private void HandleQTEInput()
         {
@@ -130,6 +146,8 @@ namespace YINGYANG.Content.Buffs
             Randed = false;
             HookTimer = 0;
             EXPLOSION = false;
+            LockWarning = false;
+            WarningKey = false;
         }
         private void CheckQTE()
         {

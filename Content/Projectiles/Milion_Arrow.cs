@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -18,6 +19,7 @@ namespace YINGYANG.Content.Projectiles
         private const int WarningTime = 120;
         private Vector2 realStartPoint;
         public static Dictionary<int, (Vector2 Pos, Vector2 Dir)> ActiveWarnings = new Dictionary<int, (Vector2, Vector2)>();
+        private bool PlaySound = false;
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 1;
@@ -61,7 +63,7 @@ namespace YINGYANG.Content.Projectiles
                 {
                     ActiveWarnings.Add(Projectile.whoAmI, (Projectile.Center, dir));
                 }
-                    return;
+                return;
             }
             if (ActiveWarnings.ContainsKey(Projectile.whoAmI))
             {
@@ -69,13 +71,26 @@ namespace YINGYANG.Content.Projectiles
             }
             if (ProjectileTimer >= WarningTime + 1)
             {
+                if (!PlaySound)
+                {
+                    foreach (Player p in Main.player)
+                    {
+                        if (p.active || !p.dead)
+                        {
+                            SoundEngine.PlaySound(SoundID.Item5, p.Center);
+                            PlaySound = true;
+                        }
+                    }
+                }
                 float speedX = Projectile.ai[0]; // 假设你在创建弹幕时把速度X存进去了
                 float speedY = Projectile.ai[1]; // 假设你在创建弹幕时把速度Y存进去了
                 if (speedX == 0 && speedY == 0) speedX = 10f; // 默认速度
                 Projectile.velocity = new Vector2(speedX, speedY);
                 Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
             }
+            
         }
+        
         public override bool PreDraw(ref Color lightColor)
         {
             //{

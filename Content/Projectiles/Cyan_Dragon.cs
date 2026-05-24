@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,6 +17,8 @@ namespace YINGYANG.Content.Projectiles
         private bool Cal = false;
         private int CalNumb;
         private bool Lock = false;
+        private bool PlaySound = false;
+        private int ProjectileTimer;
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 1;
@@ -51,6 +54,15 @@ namespace YINGYANG.Content.Projectiles
                 Player targetPlayer = Main.player[OwnerNpc.target];
                 Vector2 Toplayer = OwnerNpc.Center - targetPlayer.Center;
                 Projectile.rotation += 0.4f;
+                if (!PlaySound)
+                {
+                    SoundEngine.PlaySound(SoundID.Item7, targetPlayer.Center);
+                }
+                if(ProjectileTimer++ > 24 && ProjectileTimer < 180)
+                {
+                    PlaySound = true;
+                    ProjectileTimer = 0;
+                }
             }
 
             if (Projectile.ai[1] == 2f)

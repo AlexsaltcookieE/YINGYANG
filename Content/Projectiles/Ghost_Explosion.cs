@@ -1,9 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using YINGYANG.Content.Buffs;
 
 namespace YINGYANG.Content.Projectiles
 {
@@ -42,6 +44,8 @@ namespace YINGYANG.Content.Projectiles
                 Projectile.frameCounter = 0;
                 if (++Projectile.frame >= TotalFrames)
                 {
+                    SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+
                     Projectile.frame = 6;
                 }
             }
@@ -52,7 +56,16 @@ namespace YINGYANG.Content.Projectiles
                     CanDamage = true;
                 }
             }
-            
+            foreach (Player p in Main.player)
+            {
+                if (!p.active || p.dead) continue;
+                if (Projectile.Hitbox.Intersects(p.Hitbox) && CanDamage)
+                {
+                    p.immuneTime = 0;
+                }
+            }
+
+
         }
         public override bool PreDraw(ref Color lightColor)
         {
@@ -81,18 +94,6 @@ namespace YINGYANG.Content.Projectiles
             );
 
             return false; // 返回 false，因为我们手动绘制了，不需要默认绘制
-        }
-        public override bool CanHitPlayer(Player target)
-        {
-            if (CanDamage)
-            {
-                target.immuneTime = 0;
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
     }
 }

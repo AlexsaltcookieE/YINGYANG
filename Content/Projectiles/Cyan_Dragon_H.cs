@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,6 +17,7 @@ namespace YINGYANG.Content.Projectiles
         private bool Cal = false;
         private int CalNumb;
         private bool Lock = false;
+        private bool PlaySound = false;
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 1;
@@ -66,6 +68,11 @@ namespace YINGYANG.Content.Projectiles
                         int direction = CalNumb == 0 ? 1 : -1;
                         if (!Lock)
                         {
+                            if (!PlaySound)
+                            {
+                                SoundEngine.PlaySound(SoundID.Item1, targetPlayer.Center);
+                                PlaySound = true;
+                            }
                             Projectile.velocity = new Vector2(direction * ThornSpeed, 0);
                             if (Math.Abs(Projectile.Center.X - OwnerNpc.Center.X) >= thornDistance * 20)
                             {
