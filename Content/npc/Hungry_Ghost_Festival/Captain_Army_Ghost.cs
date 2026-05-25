@@ -1,12 +1,14 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json.Bson;
+using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using YINGYANG.Content.Buffs;
 using YINGYANG.Content.Projectiles;
+using YINGYANG.Content.Projectiles.Weapon.Ranged;
 
 namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
 {
@@ -41,7 +43,7 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
             Idle = 0,
             Aero = 1,
             Hook = 2,
-            Arrow = 3
+            Black_Hole_Phase = 3
         }
         public override void SetDefaults()
         {
@@ -91,7 +93,7 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
                 BossEscapeTimer = 0;
             }
             //----------------------------------Ai----------------------------------
-            if (CurrentBossState == BossState.Idle || CurrentBossState == BossState.Aero || CurrentBossState == BossState.Hook)
+            if (CurrentBossState == BossState.Idle || CurrentBossState == BossState.Aero || CurrentBossState == BossState.Hook|| CurrentBossState == BossState.Black_Hole_Phase)
             {
                 ProjectCoolTimer++;
             }
@@ -105,6 +107,9 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
                     break;
                 case BossState.Hook:
                     DoHook(player);
+                    break;
+                case BossState.Black_Hole_Phase:
+                    SummonBlackHole(player);
                     break;
             }
         }
@@ -137,7 +142,7 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
             BossState next;
             do
             {
-                next = (BossState)Main.rand.Next(0, 3); // 0..3 for Idle, Aero, Hook, Arrow
+                next = (BossState)Main.rand.Next(0, 4); // 0..3 for Idle, Aero, Hook, Arrow
             }
             while (next == CurrentBossState || (blockedState.HasValue && next == blockedState.Value));
             CurrentBossState = next;
@@ -223,22 +228,7 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
         }
         private void DoAero(Player target)
         {
-            if (!SummonRes)
-            {
-                Projectile projR = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<Ghost_Restriction_Ring>(), 0, 0f, Main.myPlayer);
-                //projR.ai[0] = NPC.whoAmI;
-                //GhostAeraWhoAmI = projR.whoAmI;
-                if (projR != null && projR.active)
-                {
-                    projR.ai[0] = NPC.whoAmI;
-                    GhostAeraWhoAmI = projR.whoAmI;
-                }
-                else
-                {
-                    GhostAeraWhoAmI = -1; // 生成失败则重置
-                }
-                SummonRes = true;
-            }
+            SummonRing();
             if (BossStateTimer <= 2000)
             {
                 if(ProjectCoolTimer >= 40 && ProjectTime >= 0)
@@ -277,22 +267,7 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
         }
         private void DoHook(Player target)
         {
-            if (!SummonRes)
-            {
-                Projectile projR = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<Ghost_Restriction_Ring>(), 0, 0f, Main.myPlayer);
-                //projR.ai[0] = NPC.whoAmI;
-                //GhostAeraWhoAmI = projR.whoAmI;
-                if (projR != null && projR.active)
-                {
-                    projR.ai[0] = NPC.whoAmI;
-                    GhostAeraWhoAmI = projR.whoAmI;
-                }
-                else
-                {
-                    GhostAeraWhoAmI = -1; // 生成失败则重置
-                }
-                SummonRes = true;
-            }
+            SummonRing();
             if (BossStateTimer < 400)
             {
                 NPC.velocity = NPC.velocity * 0;
@@ -335,6 +310,105 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
                 }
             }
         }
+        public void SummonBlackHole(Player target)
+        {
+            SummonRing();
+
+            // 1. 精准查找属于这个Boss的黑洞（通过 ai[0] 识别）
+            Projectile blackHole = null;
+            foreach (Projectile proj in Main.projectile)
+            {
+                // 关键点：proj.ai[0] == NPC.whoAmI 确保只认领自己的黑洞
+                if (proj.active && proj.type == ModContent.ProjectileType<Black_Hole>() && proj.ai[0] == NPC.whoAmI)
+                {
+                    blackHole = proj;
+                    break;
+                }
+            }
+
+            // 2. 阶段进行中 (BossStateTimer < 700)
+            if (BossStateTimer < 700)
+            {
+                
+                // 如果黑洞不存在，且还没生成过，则生成它
+                if (blackHole == null && ProjectTime == 3)
+                {
+                    // 生成黑洞，并把Boss的whoAmI传给黑洞的ai[0]
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(),
+                        new Vector2(NPC.Center.X, NPC.Center.Y - 140f),
+                        Vector2.Zero,
+                        ModContent.ProjectileType<Black_Hole>(),
+                        10, -100f, Main.myPlayer, NPC.whoAmI, 1f); // 注意最后的 1f 是 ai[1]
+
+                    ProjectTime--;
+                    return; // 生成后返回，下一帧再移动
+                }
+
+                // 如果黑洞存在，执行环绕逻辑
+                if (blackHole != null)
+                {   //发射弹幕
+                    if(ProjectCoolTimer > 30)
+                    {
+                        ProjectCoolTimer = 0;
+                        Vector2 baseDirection = blackHole.Center - NPC.Center;
+                        if (baseDirection != Vector2.Zero)
+                        {
+                            baseDirection.Normalize();
+                        }
+                        float spreadAngle = MathHelper.ToRadians(15f);
+                        Vector2 dirLeft = RotateVector(baseDirection, -spreadAngle);
+                        Vector2 dirCenter = baseDirection;
+                        Vector2 dirRight = RotateVector(baseDirection, spreadAngle);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, dirLeft * 20f, ProjectileID.FrostWave, 1, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, dirCenter * 20f, ProjectileID.FrostWave, 1, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, dirRight * 20f, ProjectileID.FrostWave, 1, 0f, Main.myPlayer, 0f, 0f);
+                    }
+                    // --- 环绕参数 ---
+                    float orbitRadius = 600f;      // 固定环绕半径（离黑洞的距离）
+                    float totalRotation = 360f;    // 转一圈（360度）
+                    float duration = 700f;         // 700帧转完
+                    // 计算当前进度对应的角度（弧度制）
+                    float progress = BossStateTimer / duration;
+                    float angle = MathHelper.ToRadians(progress * totalRotation);
+                    // 计算目标位置：黑洞位置 + 偏移量
+                    Vector2 orbitPosition = blackHole.Center + new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)) * orbitRadius;
+                    // 平滑移动到目标位置
+                    Vector2 moveTo = orbitPosition - NPC.Center;
+                    float speed = 15f;    // 移动速度（不要太大，否则会冲过头）
+                    float inertia = 20f;  // 惯性
+
+                    // 如果距离非常近，直接瞬移到目标点，防止抖动
+                    if (moveTo.Length() < speed)
+                    {
+                        NPC.Center = orbitPosition;
+                        NPC.velocity = Vector2.Zero;
+                    }
+                    else
+                    {
+                        NPC.velocity = (NPC.velocity * (inertia - 1) + moveTo.SafeNormalize(Vector2.Zero) * speed) / inertia;
+                    }
+                }
+                else
+                {
+                    // 如果黑洞意外消失，Boss停止不动
+                    NPC.velocity = Vector2.Zero;
+                }
+            }
+            // 3. 阶段结束 (BossStateTimer >= 700)
+            else
+            {
+                // 杀掉属于这个Boss的黑洞
+                if (blackHole != null)
+                {
+                    blackHole.Kill();
+                }
+
+                // 重置状态
+                SummonRes = false;
+                ProjectTime = 3;
+                RandomBossState();
+            }
+        }
         public override void FindFrame(int frameHeight)
         {
             FrameCounter++;
@@ -347,6 +421,32 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
                     NPC.frame.Y = 0;
                 }
 
+            }
+        }
+        private Vector2 RotateVector(Vector2 vector, float radians)
+        {
+            return new Vector2(
+                vector.X * (float)Math.Cos(radians) - vector.Y * (float)Math.Sin(radians),
+                vector.X * (float)Math.Sin(radians) + vector.Y * (float)Math.Cos(radians)
+            );
+        }
+        public void SummonRing()
+        {
+            if (!SummonRes)
+            {
+                Projectile projR = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<Ghost_Restriction_Ring>(), 0, 0f, Main.myPlayer);
+                //projR.ai[0] = NPC.whoAmI;
+                //GhostAeraWhoAmI = projR.whoAmI;
+                if (projR != null && projR.active)
+                {
+                    projR.ai[0] = NPC.whoAmI;
+                    GhostAeraWhoAmI = projR.whoAmI;
+                }
+                else
+                {
+                    GhostAeraWhoAmI = -1; // 生成失败则重置
+                }
+                SummonRes = true;
             }
         }
         public void RandArrow()
@@ -386,7 +486,7 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
                 Projectile.NewProjectile(NPC.GetSource_FromAI(), ArrowPos15, Vector2.Zero, ModContent.ProjectileType<Milion_Arrow>(), 10, 1f, Main.myPlayer, -15f, -15f);
             }
             else if(RandDir == 2)
-            {   
+            {       
                 Vector2 ArrowPos1 = new Vector2(NPC.Center.X + 2200, NPC.Center.Y + 1000);
                 Vector2 ArrowPos2 = new Vector2(NPC.Center.X + 2200, NPC.Center.Y + 800);
                 Vector2 ArrowPos3 = new Vector2(NPC.Center.X + 2200, NPC.Center.Y + 400);

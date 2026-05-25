@@ -51,7 +51,7 @@ namespace YINGYANG.Content.Projectiles // 确保命名空间正确
                 Captain_Army_Ghost myBoss = npc.ModNPC as Captain_Army_Ghost;
                 if (myBoss != null)
                 {
-                    if (myBoss.CurrentBossState == Captain_Army_Ghost.BossState.Hook || myBoss.CurrentBossState == Captain_Army_Ghost.BossState.Aero)
+                    if (myBoss.CurrentBossState != Captain_Army_Ghost.BossState.Idle)
                     {
                         Projectile.timeLeft = 10; // 在钩子状态持续存在
                     }

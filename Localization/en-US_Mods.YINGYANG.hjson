@@ -114,6 +114,9 @@ Projectiles: {
 	DKey.DisplayName: D Key
 	SpaceKey.DisplayName: Space Key
 	Bow_of_OverLord.DisplayName: 霸王本色
+	OverLord_Bow_Proj.DisplayName: Over Lord_ Bow_ Proj
+	OverLord_Arrow.DisplayName: Over Lord_ Arrow
+	Black_Hole.DisplayName: Black_ Hole
 }
 
 Buffs: {
@@ -130,6 +133,11 @@ Buffs: {
 	Ghost_Hooked: {
 		DisplayName: 被魂钩钩住了
 		Description: 你啥也干不了 只能拼命挣扎了
+	}
+
+	Unable_Platform: {
+		DisplayName: Unable_ Platform
+		Description: Mods.YINGYANG.Buffs.Unable_Platform.Description
 	}
 }
 
