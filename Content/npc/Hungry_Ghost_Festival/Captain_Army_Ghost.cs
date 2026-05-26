@@ -31,6 +31,7 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
         private int BossStateTimer = 0;
         private int BossCoolDown = 0;
         private bool SummonRes = false;
+        private bool Cool;
         public override void SetStaticDefaults()//BOSS预设值
         {
             // Ensure Terraria treats this ModNPC as a real boss for UI/progression behavior.
@@ -68,7 +69,6 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
         {
             NPC.netUpdate = true;
             //限制圈
-            BossStateTimer++;
             Player player = Main.player[NPC.target];
             NPC.direction = player.Center.X >= NPC.Center.X ? 1 : -1;
             NPC.spriteDirection = NPC.direction;
@@ -97,20 +97,28 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
             {
                 ProjectCoolTimer++;
             }
-            switch (CurrentBossState)
+            if(BossCoolDown > 0)
             {
-                case BossState.Idle:
-                    DoIdle(player);
-                    break;
-                case BossState.Aero:
-                    DoAero(player);
-                    break;
-                case BossState.Hook:
-                    DoHook(player);
-                    break;
-                case BossState.Black_Hole_Phase:
-                    SummonBlackHole(player);
-                    break;
+                BossCoolDown--;
+            }
+            else
+            {
+                BossStateTimer++;
+                switch (CurrentBossState)
+                {
+                    case BossState.Idle:
+                        DoIdle(player);
+                        break;
+                    case BossState.Aero:
+                        DoAero(player);
+                        break;
+                    case BossState.Hook:
+                        DoHook(player);
+                        break;
+                    case BossState.Black_Hole_Phase:
+                        SummonBlackHole(player);
+                        break;
+                }
             }
         }
         public void Despawn()
@@ -121,7 +129,7 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
                 NPC.timeLeft = 10;
             }
         }
-        private void RandomBossState(BossState? blockedState = null)
+        private void RandomBossState(BossState? blockedState = null,BossState? blockedState2 = null,BossState? NextState = null)
         {
             if (GhostAeraWhoAmI != -1 && GhostAeraWhoAmI < Main.maxProjectiles)
             {
@@ -131,20 +139,20 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
                     p.Kill(); // 杀掉弹幕
                 }
             }
-            //if (GhostAeraWhoAmI != -1 && Main.projectile[GhostAeraWhoAmI].active)
-            //{
-            //    Main.projectile[GhostAeraWhoAmI].Kill(); // 强制销毁旧圈
-            //    GhostAeraWhoAmI = -1; // 重置 ID
-            //}
             BossStateTimer = 0;
             ProjectCoolTimer = 0;
-            BossCoolDown = 30;
+            BossCoolDown = 15;
+            if(NextState != null)
+            {
+                CurrentBossState = NextState.Value;
+                return;
+            }
             BossState next;
             do
             {
                 next = (BossState)Main.rand.Next(0, 4); // 0..3 for Idle, Aero, Hook, Arrow
             }
-            while (next == CurrentBossState || (blockedState.HasValue && next == blockedState.Value));
+            while ((next == CurrentBossState || (blockedState.HasValue && next == blockedState.Value || blockedState2.HasValue && next == blockedState2)));
             CurrentBossState = next;
         }
         public override void OnKill()
@@ -223,7 +231,8 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
             {
                 StateEnd = false;
                 Teleport_Sound = false;
-                RandomBossState(BossState.Aero);
+                RandomBossState(NextState: BossState.Black_Hole_Phase);
+
             }
         }
         private void DoAero(Player target)
@@ -260,7 +269,8 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
                     {
                         ProjectTime = 3;
                         SummonRes = false;
-                        RandomBossState();
+                        BossCoolDown = 60;
+                        RandomBossState(blockedState:BossState.Black_Hole_Phase);
                     }
                 }
             }
@@ -291,7 +301,7 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
                     ProjectTime--;
                     RandArrow();
                 }
-                    if (ProjectCoolTimer > 100 && ProjectTime >= -6 && !target.HasBuff(ModContent.BuffType<Ghost_Hooked>()))        
+                    if (ProjectCoolTimer > 100 && ProjectTime >= 1 && !target.HasBuff(ModContent.BuffType<Ghost_Hooked>()))        
                 {
                     ProjectCoolTimer = 0;
                     ProjectTime--;
@@ -325,11 +335,9 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
                     break;
                 }
             }
-
             // 2. 阶段进行中 (BossStateTimer < 700)
             if (BossStateTimer < 700)
             {
-                
                 // 如果黑洞不存在，且还没生成过，则生成它
                 if (blackHole == null && ProjectTime == 3)
                 {
@@ -339,7 +347,7 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
                         Vector2.Zero,
                         ModContent.ProjectileType<Black_Hole>(),
                         10, -100f, Main.myPlayer, NPC.whoAmI, 1f); // 注意最后的 1f 是 ai[1]
-
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(NPC.Center.X, NPC.Center.Y), Vector2.Zero, ModContent.ProjectileType<Bow_of_OverLord>(), 0, 0,Main.myPlayer,NPC.whoAmI,1f);
                     ProjectTime--;
                     return; // 生成后返回，下一帧再移动
                 }
@@ -347,7 +355,12 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
                 // 如果黑洞存在，执行环绕逻辑
                 if (blackHole != null)
                 {   //发射弹幕
-                    if(ProjectCoolTimer > 30)
+                    if(ProjectCoolTimer> 80 && Cool == false)
+                    {
+                        ProjectCoolTimer = 0;
+                        Cool = true;
+                    }
+                    if(ProjectCoolTimer > 40)
                     {
                         ProjectCoolTimer = 0;
                         Vector2 baseDirection = blackHole.Center - NPC.Center;
@@ -355,13 +368,18 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
                         {
                             baseDirection.Normalize();
                         }
-                        float spreadAngle = MathHelper.ToRadians(15f);
+                        float spreadAngle = MathHelper.ToRadians(30f);
+                        float spreadAngle2 = MathHelper.ToRadians(60f);
                         Vector2 dirLeft = RotateVector(baseDirection, -spreadAngle);
                         Vector2 dirCenter = baseDirection;
                         Vector2 dirRight = RotateVector(baseDirection, spreadAngle);
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, dirLeft * 20f, ProjectileID.FrostWave, 1, 0f, Main.myPlayer, 0f, 0f);
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, dirCenter * 20f, ProjectileID.FrostWave, 1, 0f, Main.myPlayer, 0f, 0f);
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, dirRight * 20f, ProjectileID.FrostWave, 1, 0f, Main.myPlayer, 0f, 0f);
+                        Vector2 dirLeft2 = RotateVector(baseDirection, -spreadAngle2);
+                        Vector2 dirRight2 = RotateVector(baseDirection, spreadAngle2);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, dirLeft * 20f, ModContent.ProjectileType<OverLord_Arrow>(), 1, 0f, Main.myPlayer, 1f, 0f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, dirCenter * 20f, ModContent.ProjectileType<OverLord_Arrow>(), 1, 0f, Main.myPlayer, 1f, 0f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, dirRight * 20f, ModContent.ProjectileType<OverLord_Arrow>(), 1, 0f, Main.myPlayer, 1f, 0f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, dirLeft2 * 20f, ModContent.ProjectileType<OverLord_Arrow>(), 1, 0f, Main.myPlayer, 1f, 0f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, dirRight2 * 20f, ModContent.ProjectileType<OverLord_Arrow>(), 1, 0f, Main.myPlayer,1f, 0f);
                     }
                     // --- 环绕参数 ---
                     float orbitRadius = 600f;      // 固定环绕半径（离黑洞的距离）
@@ -406,6 +424,7 @@ namespace YINGYANG.Content.npc.Hungry_Ghost_Festival
                 // 重置状态
                 SummonRes = false;
                 ProjectTime = 3;
+                Cool = false;
                 RandomBossState();
             }
         }

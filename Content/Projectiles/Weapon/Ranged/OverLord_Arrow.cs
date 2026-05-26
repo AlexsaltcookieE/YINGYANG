@@ -18,8 +18,18 @@ namespace YINGYANG.Content.Projectiles.Weapon.Ranged // 替换为你的模组命
 
         public override void SetDefaults()
         {
-            Projectile.width = 35; // 替换为单帧的实际宽度
-            Projectile.height = 49  ; // 替换为单帧的实际高度
+            if(Projectile.ai[1] == 1f)
+            {
+                Projectile.width = 10; // 替换为单帧的实际宽度
+                Projectile.height = 10; // 替换为单帧的实际高度
+                Projectile.scale = 2.5f;
+            }
+            else
+            {
+                Projectile.width = 35; // 替换为单帧的实际宽度
+                Projectile.height = 49; // 替换为单帧的实际高度
+                Projectile.scale = 2.5f;
+            }
             Projectile.friendly = true; // 对敌友好（玩家发射）
             Projectile.tileCollide = false;
             Projectile.hostile = false;
@@ -32,6 +42,11 @@ namespace YINGYANG.Content.Projectiles.Weapon.Ranged // 替换为你的模组命
 
         public override void AI()
         {
+            if (Projectile.ai[0] == 1f)
+            {
+                Projectile.friendly = false;
+                Projectile.hostile = true;
+            }
             if(!PlaySound)
             {
                 PlaySound = true;
@@ -74,6 +89,17 @@ namespace YINGYANG.Content.Projectiles.Weapon.Ranged // 替换为你的模组命
             for (int i = 0; i < 3; i++)
             {
                 Projectile.NewProjectile(owner.GetSource_FromThis(),new Vector2(Projectile.Center.X,Projectile.Center.Y),Vector2.Zero,ProjectileID.SolarWhipSwordExplosion,40,0f);
+            }
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            if (Projectile.ai[0] == 1f)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    NPC npc = Main.npc[Projectile.owner];
+                    Projectile.NewProjectile(npc.GetSource_FromThis(), new Vector2(Projectile.Center.X, Projectile.Center.Y), Vector2.Zero, ProjectileID.SolarWhipSwordExplosion, 40, 0f);
+                }
             }
         }
         public override bool PreDraw(ref Color lightColor)

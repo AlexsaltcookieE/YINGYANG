@@ -28,9 +28,9 @@ namespace YINGYANG.Content.Projectiles
 
         public override void SetDefaults()
         {
-            Projectile.scale = 4.5f;
-            Projectile.width = 100;
-            Projectile.height = 100;
+            Projectile.scale = 3.5f;
+            Projectile.width = 70;
+            Projectile.height = 70;
             Projectile.friendly = false;
             Projectile.hostile = true;
             Projectile.penetrate = -1;

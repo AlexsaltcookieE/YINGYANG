@@ -21,8 +21,8 @@ namespace YINGYANG.Content.Projectiles
         public override void SetDefaults()
         {
             Projectile.scale = 3f;
-            Projectile.width = 48;     // ← 改你贴图单帧宽
-            Projectile.height = 48;     // ← 改你贴图单帧高
+            Projectile.width = 0;     // ← 改你贴图单帧宽
+            Projectile.height = 0;     // ← 改你贴图单帧高
             Projectile.friendly = false;
             Projectile.hostile = true;
             Projectile.penetrate = -1; // 无限穿透

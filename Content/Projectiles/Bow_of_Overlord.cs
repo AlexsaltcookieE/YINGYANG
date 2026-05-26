@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using YINGYANG.Content.npc.Hungry_Ghost_Festival;
 namespace YINGYANG.Content.Projectiles
 {
     public class Bow_of_OverLord : ModProjectile
@@ -21,7 +22,7 @@ namespace YINGYANG.Content.Projectiles
             Projectile.friendly = true;          // 对玩家友好
             Projectile.hostile = false;          // 不对玩家造成伤害
             Projectile.penetrate = 1;
-            Projectile.timeLeft = 300;
+            Projectile.timeLeft = 700;
             Projectile.tileCollide = true;
             Projectile.ignoreWater = true;
             Projectile.scale = 3f;
@@ -29,6 +30,34 @@ namespace YINGYANG.Content.Projectiles
 
         public override void AI()
         {
+            if (Projectile.ai[1] == 1f)
+            {
+                int npcIndex = (int)Projectile.ai[0];
+                if (npcIndex < 0 || npcIndex >= Main.maxNPCs || !Main.npc[npcIndex].active)
+                {
+                    Projectile.Kill();
+                    return;
+                }
+                NPC npc = Main.npc[npcIndex];
+                if(npc.type == ModContent.NPCType<Captain_Army_Ghost>() && npc.active)
+                {
+                    Vector2 targetPos = new Vector2(npc.Center.X,npc.Center.Y);
+                    Projectile.Center = targetPos;
+                    foreach(Projectile proj in Main.projectile)
+                    {
+                        if(proj.active && proj.type == ModContent.ProjectileType<Black_Hole>())
+                        {
+                            Vector2 Dir = proj.Center - npc.Center;
+                            Projectile.rotation = Dir.ToRotation();
+                        }
+                    }
+                }
+                else
+                {
+                    Projectile.Kill();
+                    return;
+                }
+            }
             // 帧动画逻辑
             if (++Projectile.frameCounter >= FrameSpeed)
             {
